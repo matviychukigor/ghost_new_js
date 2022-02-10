@@ -4,6 +4,7 @@ import { TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, Icon
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import { NavLink, useLocation } from 'react-router-dom';
 
@@ -23,13 +24,15 @@ const Auth = () => {
         showPassword: false,
         showConfirmPassword: false
     });
+    const [statusRegistration, setStatus] = useState(null)
 
     const click = async () => {
         if(isLogin) {
             const response = await login()
         } else {
             const response = await registration(userName, email, values.password, values.confirmPassword)
-            console.log(response)
+            setStatus(response.data.status)
+            console.log(response.data.status)
         }
     }
 
@@ -65,9 +68,19 @@ const Auth = () => {
         >
             <Card sx={{ maxWidth: 475}}>
                 <div style={{display: "flex", justifyContent:"center"}}>
-                    <AccountCircleIcon color="action" sx={{fontSize: 100, color: "grey", textAlign: "center"}}/>
+                    {statusRegistration === 0 ? 
+                        <CheckCircleIcon color="success" sx={{fontSize: 150, color: "grey", textAlign: "center"}}/>
+                        : 
+                        <AccountCircleIcon color="action" sx={{fontSize: 100, color: "grey", textAlign: "center"}}/>
+                    }
                 </div>
-          <CardContent sx={{paddingY: 0}}>    
+          <CardContent sx={{paddingY: 0}}>   
+                {statusRegistration === 0 ? 
+                    <Typography sx={{ fontSize: 30, textAlign: "center" }} color="text.secondary" gutterBottom>
+                        Your registration succes
+                    </Typography>
+                : 
+                <div>
                 <Typography sx={{ fontSize: 30, textAlign: "center" }} color="text.secondary" gutterBottom>
                     {isLogin ? "Login": "Authorization"}
                 </Typography>
@@ -135,8 +148,16 @@ const Auth = () => {
                 />
                 </FormControl>
                 }
+                </div>
+                }
             </CardContent>
             <CardActions sx={{display: "flex", alignItems: "center", paddingX: 2, justifyContent: "space-between"}}>
+            {statusRegistration === 0 ? 
+                <div style={{display: "flex", justifyContent: "center", width: "100%"}}>
+                    <NavLink style={{color: "#1776d2", textAlign: "center",  textDecoration: "none", fontSize: "30px", fontFamily: "sans-serif", fontWeight: 700}} to={LOGIN}> Login</NavLink>
+                </div>
+                :
+                <> 
                 {isLogin ? 
                     <div style={{marginLeft: "3px"}}>
                         If you don't have account, 
@@ -149,6 +170,8 @@ const Auth = () => {
                     </div>
                 }
                 <Button onClick={click} variant="contained">{isLogin ? "Login" : "Sign Up"}</Button>
+                </>
+            }    
             </CardActions>
             </Card>
         </Grid>
