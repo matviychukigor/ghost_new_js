@@ -1,17 +1,22 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 
 import { TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Card, CardActions, CardContent, Typography, Grid} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import LoginIcon from '@mui/icons-material/Login';
 
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
-import {LOGIN, REGISTRATION, SUCCES_REGISTRATION} from "../utils/const";
+import {LOGIN, REGISTRATION, SUCCES_REGISTRATION, SHOP_ROUTE} from "../utils/const";
 import { registration, login } from '../http/userApi';
+import { observer } from 'mobx-react-lite';
+import { Context } from '..';
 
-const Auth = () => {
+const Auth = observer (() => {
+    const {user} = useContext(Context)
+
     let navigate = useNavigate()
     const location = useLocation()
     const isLogin = location.pathname === LOGIN
@@ -30,8 +35,11 @@ const Auth = () => {
         setLoading(true)
         if(isLogin) {
             const response = await login(email, values.password)
+            user.setUser(user)
+            user.setIsAuth(true)
             console.log(response)
             setLoading(false)
+            navigate(SHOP_ROUTE)
         } else {
             const response = await registration(userName, email, values.password, values.confirmPassword)
             if(response.data.status === 0 ) {
@@ -159,6 +167,7 @@ const Auth = () => {
                 <LoadingButton 
                     sx={{width: "120px"}}
                     onClick={click} 
+                    endIcon={<LoginIcon />}
                     loading={loading} 
                     loadingPosition="end" 
                     variant="contained">
@@ -169,6 +178,6 @@ const Auth = () => {
         </Grid>
         
       );
-}
+})
 
 export default Auth;

@@ -12,7 +12,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import Link from '@mui/material/Link';
 
 import { NavLink } from 'react-router-dom';
 
@@ -48,14 +47,20 @@ const NavBar = observer(() => {
     <AppBar elevation={6} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Link
-            underline="none"
-            href={MAIN_PAGE}
-            variant="h6"
-            sx={{ color:"white", mr: 5, display: { xs: 'none', md: 'flex' } }}
+          <NavLink
+            to={MAIN_PAGE}
+            style={{ 
+                color:"white", 
+                textDecoration: "none", 
+                fontSize: 30, 
+                fontFamily: "sans-serif", 
+                fontWeight: 700, 
+                marginRight: 25, 
+                display: { xs: 'none', md: 'flex' } }
+            }
           >
             Ghost Proxy
-          </Link>
+          </NavLink>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
