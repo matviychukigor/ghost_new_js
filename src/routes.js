@@ -5,7 +5,7 @@ import Payments from "./pages/Payments"
 import MainPage from "./pages/MainPage"
 import News from "./pages/News"
 import FAQ from "./pages/FAQ"
-import {MAIN_PAGE, FAQ_LINK, AUTH, SHOP_ROUTE, NEWS, MY_PROXY, PAYMENTS} from "./utils/const"
+import {MAIN_PAGE, FAQ_LINK, REGISTRATION, LOGIN, SHOP_ROUTE, NEWS, MY_PROXY, PAYMENTS} from "./utils/const"
 
 export const authRoutes = [
     {
@@ -32,7 +32,11 @@ export const publicRoutes = [
         Component: <FAQ/>
     },
     {
-        path: AUTH ,
+        path: REGISTRATION ,
+        Component: <Auth/>
+    },
+    {
+        path: LOGIN ,
         Component: <Auth/>
     },
     {

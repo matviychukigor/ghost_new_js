@@ -14,13 +14,15 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Link from '@mui/material/Link';
 
+import { NavLink } from 'react-router-dom';
 
 import {FAQ_LINK, NEWS, MAIN_PAGE } from '../utils/const';
 import { Context } from '..';
+import { observer } from 'mobx-react-lite';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const NavBar = () => {
+const NavBar = observer(() => {
 
     const {user} = useContext(Context)
 
@@ -50,7 +52,7 @@ const NavBar = () => {
             underline="none"
             href={MAIN_PAGE}
             variant="h6"
-            sx={{ color:"white", mr: 50, display: { xs: 'none', md: 'flex' } }}
+            sx={{ color:"white", mr: 5, display: { xs: 'none', md: 'flex' } }}
           >
             Ghost Proxy
           </Link>
@@ -100,21 +102,9 @@ const NavBar = () => {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                <Link
-                    underline="none"
-                    href={NEWS}
-                    sx={{ color:"white", mr: 20, display: { xs: 'none', md: 'flex' } }}
-                    >
-                        NEWS
-                </Link>
-                <Link
-                    underline="none"
-                    href={FAQ_LINK}
-                    sx={{ color:"white", mr: 2, display: { xs: 'none', md: 'flex' } }}
-                    >
-                        FAQ
-                </Link>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }}}>
+                <NavLink style={{color: "white", textDecoration: "none", marginRight: 30, fontFamily: "sans-serif", fontWeight: 700}} to={NEWS}> NEWS</NavLink>
+                <NavLink style={{color: "white", textDecoration: "none", marginRight: 5, fontFamily: "sans-serif", fontWeight: 700}} to={FAQ_LINK}> FAQ</NavLink>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -125,8 +115,8 @@ const NavBar = () => {
                     </IconButton>
                 </Tooltip> ) : (
                     <>
-                        <Button sx={{color:"white", mr:"5px"}} variant="text">Login</Button>
-                        <Button sx={{color:"white", borderColor: "white"}} variant="outlined">Registration</Button>
+                        <Button sx={{mr:2}} color="inherit" variant="outlined" > Login</Button>
+                        <Button color="inherit" variant="outlined">Registration</Button>
                     </>
                 ) 
             }
@@ -158,6 +148,6 @@ const NavBar = () => {
       </Container>
     </AppBar>
   );
-};
+});
 
 export default NavBar;

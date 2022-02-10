@@ -1,6 +1,7 @@
 export const MAIN_PAGE = "/"
 export const FAQ_LINK = "/faq"
-export const AUTH = "/auth"
+export const REGISTRATION = "/registration"
+export const LOGIN = "/login"
 export const SHOP_ROUTE = "/shop"
 export const NEWS = "/news"
 export const MY_PROXY = "/my"
