@@ -5,7 +5,9 @@ import Payments from "./pages/Payments"
 import MainPage from "./pages/MainPage"
 import News from "./pages/News"
 import FAQ from "./pages/FAQ"
-import {MAIN_PAGE, FAQ_LINK, REGISTRATION, LOGIN, SHOP_ROUTE, NEWS, MY_PROXY, PAYMENTS} from "./utils/const"
+import SuccesRegistration from "./pages/SuccesRegistration"
+import { SUCCES_REGISTRATION, MAIN_PAGE, FAQ_LINK, REGISTRATION, LOGIN, SHOP_ROUTE, NEWS, MY_PROXY, PAYMENTS} from "./utils/const"
+
 
 export const authRoutes = [
     {
@@ -43,4 +45,8 @@ export const publicRoutes = [
         path: NEWS,
         Component: <News/>
     },
+    {
+        path: SUCCES_REGISTRATION,
+        Component: <SuccesRegistration/>
+    }
 ]

@@ -16,7 +16,7 @@ import Link from '@mui/material/Link';
 
 import { NavLink } from 'react-router-dom';
 
-import {FAQ_LINK, NEWS, MAIN_PAGE } from '../utils/const';
+import {FAQ_LINK, NEWS, MAIN_PAGE, LOGIN, REGISTRATION } from '../utils/const';
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
 
@@ -115,8 +115,12 @@ const NavBar = observer(() => {
                     </IconButton>
                 </Tooltip> ) : (
                     <>
+                      <NavLink style={{textDecoration: "none", color: "inherit"}} to={LOGIN}>
                         <Button sx={{mr:2}} color="inherit" variant="outlined" > Login</Button>
-                        <Button color="inherit" variant="outlined">Registration</Button>
+                      </NavLink>
+                      <NavLink style={{textDecoration: "none", color: "inherit"}} to={REGISTRATION}>
+                      <Button color="inherit" variant="outlined">Registration</Button>
+                      </NavLink>
                     </>
                 ) 
             }
