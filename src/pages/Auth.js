@@ -156,7 +156,14 @@ const Auth = () => {
                         <NavLink style={{color: "blue", textDecoration: "none"}} to={LOGIN}> login for you account</NavLink>
                     </div>
                 }
-                <LoadingButton onClick={click} loading={loading} loadingPosition="end" variant="contained">{isLogin ? "Login" : "Sign Up"}</LoadingButton>
+                <LoadingButton 
+                    sx={{width: "120px"}}
+                    onClick={click} 
+                    loading={loading} 
+                    loadingPosition="end" 
+                    variant="contained">
+                        {isLogin ? "Login" : "Sign Up"}
+                </LoadingButton>
             </CardActions>
             </Card>
         </Grid>
