@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 
-import { TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Card, CardActions, CardContent, Button, Typography, Grid} from '@mui/material';
+import { TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Card, CardActions, CardContent, Typography, Grid} from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -17,6 +18,7 @@ const Auth = () => {
 
     const [userName, setUserName] = useState("")
     const [email, setEmail] = useState("")
+    const [loading, setLoading] = useState(false);
     const [values, setValues] = useState({
         password: '',
         confirmPassword: '',
@@ -25,13 +27,16 @@ const Auth = () => {
     });
 
     const click = async () => {
+        setLoading(true)
         if(isLogin) {
             const response = await login(email, values.password)
             console.log(response)
+            setLoading(false)
         } else {
             const response = await registration(userName, email, values.password, values.confirmPassword)
             if(response.data.status === 0 ) {
                 navigate(SUCCES_REGISTRATION)
+                setLoading(false)
             }
             console.log(response.data.status)
         }
@@ -151,7 +156,7 @@ const Auth = () => {
                         <NavLink style={{color: "blue", textDecoration: "none"}} to={LOGIN}> login for you account</NavLink>
                     </div>
                 }
-                <Button onClick={click} variant="contained">{isLogin ? "Login" : "Sign Up"}</Button>
+                <LoadingButton onClick={click} loading={loading} loadingPosition="end" variant="contained">{isLogin ? "Login" : "Sign Up"}</LoadingButton>
             </CardActions>
             </Card>
         </Grid>
