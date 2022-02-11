@@ -16,6 +16,8 @@ const App = observer(() => {
     getMe().then(data => {
       user.setUser(true)
       user.setIsAuth(true)
+      user.setBalance(data.balance)
+      user.setUserName(data.nickname)
     }).finally(() => setLoading(false))
   }, [])
 

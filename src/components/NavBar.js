@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 import { NavLink } from 'react-router-dom';
 
-import {FAQ_LINK, NEWS, MAIN_PAGE, LOGIN, REGISTRATION } from '../utils/const';
+import {FAQ_LINK, NEWS, MAIN_PAGE, LOGIN, REGISTRATION, SHOP_ROUTE, MY_PROXY, PAYMENTS } from '../utils/const';
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
 
@@ -38,7 +38,7 @@ const NavBar = observer(() => {
     };
 
     const handleCloseUserMenu = () => {
-        
+        setAnchorElUser(null);
     };
 
     const logout = () => {
@@ -46,6 +46,7 @@ const NavBar = observer(() => {
         user.setIsAuth(false)
         localStorage.removeItem("token")
         setAnchorElUser(null);
+        setAnchorElNav(null);
     }
 
   return (
@@ -113,12 +114,25 @@ const NavBar = observer(() => {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }}}>
-                <NavLink style={{color: "white", textDecoration: "none", marginRight: 30, fontFamily: "sans-serif", fontWeight: 700}} to={NEWS}> NEWS</NavLink>
-                <NavLink style={{color: "white", textDecoration: "none", marginRight: 5, fontFamily: "sans-serif", fontWeight: 700}} to={FAQ_LINK}> FAQ</NavLink>
+                <NavLink style={{color: "white", textDecoration: "none", marginRight: 30, fontFamily: "sans-serif", fontWeight: 700}} to={NEWS}> News</NavLink>
+                <NavLink style={{color: "white", textDecoration: "none", marginRight: 30, fontFamily: "sans-serif", fontWeight: 700}} to={FAQ_LINK}> FAQ</NavLink>
+                {user.isAuth ? (<>
+                    <NavLink style={{color: "white", textDecoration: "none", marginRight: 30, fontFamily: "sans-serif", fontWeight: 700}} to={SHOP_ROUTE}> Proxy Shop</NavLink>
+                    <NavLink style={{color: "white", textDecoration: "none", marginRight: 30, fontFamily: "sans-serif", fontWeight: 700}} to={MY_PROXY}> My proxy</NavLink>
+                    <NavLink style={{color: "white", textDecoration: "none", marginRight: 5, fontFamily: "sans-serif", fontWeight: 700}} to={PAYMENTS}> Payments</NavLink>
+                </>) : ""}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, display: "flex" }}>
               {user.isAuth ? (
+                  <>
+                    <Typography sx={{display: "flex", fontWeight: 700, alignItems: "center", justifyContent: "center", mr: 1}} textAlign="center">{user.userName}:</Typography>
+                    <Typography sx={{display: "flex", alignItems: "center", justifyContent: "center", mr: 2}} textAlign="center">{user.balance.toFixed(2)}$</Typography>
+                  </>
+                ): ""}
+          
+              {user.isAuth ? (
+                  
                 <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                         <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -134,7 +148,6 @@ const NavBar = observer(() => {
                     </>
                 ) 
             }
-            
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
