@@ -19,8 +19,6 @@ import {FAQ_LINK, NEWS, MAIN_PAGE, LOGIN, REGISTRATION } from '../utils/const';
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
 const NavBar = observer(() => {
 
     const {user} = useContext(Context)
@@ -29,19 +27,26 @@ const NavBar = observer(() => {
     const [anchorElUser, setAnchorElUser] = useState(null);
 
     const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+        setAnchorElNav(event.currentTarget);
     };
     const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+        setAnchorElUser(event.currentTarget);
     };
 
     const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+        setAnchorElNav(null);
     };
 
     const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+        
     };
+
+    const logout = () => {
+        user.setUser({})
+        user.setIsAuth(false)
+        localStorage.removeItem("token")
+        setAnchorElUser(null);
+    }
 
   return (
     <AppBar elevation={6} position="static">
@@ -146,11 +151,9 @@ const NavBar = observer(() => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+            <MenuItem onClick={() => logout()}>
+                <Typography textAlign="center">Logout</Typography>
+            </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

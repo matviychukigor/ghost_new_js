@@ -63,7 +63,7 @@ const Auth = observer (() => {
                     setLoading(false)
                 }
                 console.log(response.data.status)
-            } else if(values.password != values.confirmPassword) {
+            } else if(values.password !==values.confirmPassword) {
                 setLoading(false)
                 setValidation({...validationValues, confirmPasswordError: "passwords do not match", confirmPasswordDirty: true})
             } else{
@@ -133,6 +133,8 @@ const Auth = observer (() => {
             case "confirmPassword":
                 setValidation({...validationValues, confirmPasswordDirty: true})
                 break
+            default:
+                console.log("Some error")
         }
     }
 
@@ -144,7 +146,7 @@ const Auth = observer (() => {
             alignItems="center"
             style={{marginTop: 50}}
         >
-            <Card sx={{ maxWidth: 475}}>
+            <Card sx={{ width: 475}}>
                 <div style={{display: "flex", justifyContent:"center"}}>
                     <AccountCircleIcon color="action" sx={{fontSize: 100, color: "grey", textAlign: "center"}}/>
                 </div>
