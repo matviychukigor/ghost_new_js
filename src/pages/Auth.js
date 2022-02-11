@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 
-import { TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Card, CardActions, CardContent, Typography, Grid} from '@mui/material';
+import { Alert, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton, Card, CardActions, CardContent, Typography, Grid} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Visibility from '@mui/icons-material/Visibility';
@@ -31,23 +31,74 @@ const Auth = observer (() => {
         showConfirmPassword: false
     });
 
+    const [validationValues, setValidation] = useState({
+        emailDirty: false,
+        emailError: "Email can't be empty",
+        nickDirty: false,
+        nickError: "Username can't be empty", 
+        passwordDirty: false,
+        passwordError: "Password can't be empty",
+        confirmPasswordDirty: false,
+        confirmPasswordError: "This field can't be empty",
+    })
+
     const click = async () => {
         setLoading(true)
         if(isLogin) {
-            const response = await login(email, values.password)
-            user.setUser(user)
-            user.setIsAuth(true)
-            console.log(response)
-            setLoading(false)
-            navigate(SHOP_ROUTE)
-        } else {
-            const response = await registration(userName, email, values.password, values.confirmPassword)
-            if(response.data.status === 0 ) {
-                navigate(SUCCES_REGISTRATION)
+            if(validationValues.passwordError.length === 0 && validationValues.emailError.length === 0){
+                const response = await login(email, values.password)
+                user.setUser(user)
+                user.setIsAuth(true)
+                console.log(response)
+                setLoading(false)
+                navigate(SHOP_ROUTE)
+            } else {
                 setLoading(false)
             }
-            console.log(response.data.status)
+        } else {
+            if(values.password === values.confirmPassword && validationValues.emailError.length  === 0 && validationValues.nickError.length  === 0 && validationValues.passwordError.length ===0 && validationValues.confirmPasswordError.length ===0) {
+                const response = await registration(userName, email, values.password, values.confirmPassword)
+                if(response.data.status === 0 ) {
+                    navigate(SUCCES_REGISTRATION)
+                    setLoading(false)
+                }
+                console.log(response.data.status)
+            } else if(values.password != values.confirmPassword) {
+                setLoading(false)
+                setValidation({...validationValues, confirmPasswordError: "passwords do not match", confirmPasswordDirty: true})
+            } else{
+                setLoading(false)
+            }
         }
+    }
+
+    const emailHandler = (e) => {
+        setEmail(e.target.value)
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        if(!re.test(String(e.target.value).toLowerCase())){
+            setValidation({...validationValues, emailError: "Incorrect email"})
+        } else {
+            setValidation({...validationValues, emailError: "", emailDirty: false})
+        }
+    }
+
+    const nickHandler = (e) => {
+        setUserName(e.target.value)
+        setValidation({...validationValues, nickError: "", nickDirty: false})
+    }
+
+    const passHandler = (e) => {
+        setValues({...values, password: e.target.value})
+        if(e.target.value.length < 6) {
+            setValidation({...validationValues, passwordError: "Password must have 6 symbols", passwordDirty: true})
+        } else {
+            setValidation({...validationValues, passwordError: "", passwordDirty: false})
+        }
+    }
+
+    const confirmPassHandler = (e) => {
+        setValues({...values, confirmPassword: e.target.value})
+        setValidation({...validationValues, confirmPasswordError: "", confirmPasswordDirty: false})
     }
 
     const handleClickShowPassword = () => {
@@ -64,13 +115,26 @@ const Auth = observer (() => {
         });
     };
 
-    const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+
+    const blurHandle = (e) => {
+        switch (e.target.name) {
+            case "email":
+                setValidation({...validationValues, emailDirty: true})
+                break
+            case "nick":
+                setValidation({...validationValues, nickDirty: true})
+                break
+            case "password":
+                setValidation({...validationValues, passwordDirty: true})
+                break
+            case "confirmPassword":
+                setValidation({...validationValues, confirmPasswordDirty: true})
+                break
+        }
+    }
 
     return (
         <Grid
@@ -89,29 +153,43 @@ const Auth = observer (() => {
                     {isLogin ? "Login": "Authorization"}
                 </Typography>
                 {isLogin ? "" : 
+                    <>
                     <TextField 
-                        style={{width: "100%", marginBottom: 10}} 
+                        name="nick"
+                        error={validationValues.nickDirty && validationValues.nickError.length > 0 ? true : false}
+                        style={{width: "100%"}} 
                         id="outlined-basic" 
                         label="Username" 
                         variant="outlined" 
                         value={userName}
-                        onChange={e => setUserName(e.target.value)}
-                    />}
+                        onBlur={e => blurHandle(e)}
+                        onChange={e => nickHandler(e)}
+                    />
+                    {validationValues.nickDirty && validationValues.nickError.length > 0 ? <Alert severity="error">{validationValues.nickError}</Alert> : ""}
+                    </>
+                    }
                 <TextField 
-                    style={{width: "100%", marginBottom: 10}} 
+                    name="email"
+                    error={validationValues.emailDirty && validationValues.emailError.length > 0 ? true : false}
+                    style={{width: "100%", marginTop: 10}} 
                     id="outlined-basic-email" 
                     label="Email" 
                     variant="outlined" 
                     value={email}
-                    onChange={e => setEmail(e.target.value)}
+                    onBlur={e => blurHandle(e)}
+                    onChange={e => emailHandler(e)}
                 />
-                <FormControl sx={{ width: '100%' }} variant="outlined">
+                {validationValues.emailDirty && validationValues.emailError.length > 0 ? <Alert severity="error">{validationValues.emailError}</Alert> : ""}
+                <FormControl sx={{ width: '100%', mt: 1}} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                 <OutlinedInput
+                    error={validationValues.passwordDirty && validationValues.passwordError.length > 0 ? true : false}
+                    name="password"
                     id="outlined-adornment-password"
                     type={values.showPassword ? 'text' : 'password'}
                     value={values.password}
-                    onChange={handleChange('password')}
+                    onBlur={e => blurHandle(e)}
+                    onChange={e => passHandler(e)}
                     endAdornment={
                     <InputAdornment position="end">
                         <IconButton
@@ -126,15 +204,20 @@ const Auth = observer (() => {
                     }
                     label="Password"
                 />
+                {validationValues.passwordDirty && validationValues.passwordError.length > 0 ? <Alert severity="error">{validationValues.passwordError}</Alert>  : ""}
+                
                 </FormControl>
                 {isLogin ? "" : 
                 <FormControl sx={{mt: 1, width: '100%' }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
                 <OutlinedInput
+                    error={validationValues.confirmPasswordDirty && validationValues.confirmPasswordError.length > 0 ? true: false}
+                    name="confirmPassword"
                     id="outlined-adornment--confirm-password"
                     type={values.showConfirmPassword ? 'text' : 'password'}
                     value={values.confirmPassword}
-                    onChange={handleChange('confirmPassword')}
+                    onBlur={e => blurHandle(e)}
+                    onChange={e => confirmPassHandler(e)}
                     endAdornment={
                     <InputAdornment position="end">
                         <IconButton
@@ -149,18 +232,19 @@ const Auth = observer (() => {
                     }
                     label="Confirm password"
                 />
+                {validationValues.confirmPasswordDirty && validationValues.confirmPasswordError.length > 0 ? <Alert severity="error">{validationValues.confirmPasswordError}</Alert>  : ""}
                 </FormControl>
                 }
             </CardContent>
             <CardActions sx={{display: "flex", alignItems: "center", paddingX: 2, justifyContent: "space-between"}}>
                 {isLogin ? 
                     <div style={{marginLeft: "3px"}}>
-                        If you don't have account, 
+                        Don't have account, 
                         <NavLink style={{color: "blue", textDecoration: "none"}} to={REGISTRATION}> register now</NavLink>
                     </div>
                 : 
                     <div style={{marginLeft: "3px"}}>
-                        If you have account,  
+                        Have account,  
                         <NavLink style={{color: "blue", textDecoration: "none"}} to={LOGIN}> login for you account</NavLink>
                     </div>
                 }
