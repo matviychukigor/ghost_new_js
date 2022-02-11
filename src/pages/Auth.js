@@ -90,7 +90,7 @@ const Auth = observer (() => {
     const passHandler = (e) => {
         setValues({...values, password: e.target.value})
         if(e.target.value.length < 6) {
-            setValidation({...validationValues, passwordError: "Password must have 6 symbols", passwordDirty: true})
+            setValidation({...validationValues, passwordError: "Password must have 6 symbols"})
         } else {
             setValidation({...validationValues, passwordError: "", passwordDirty: false})
         }
