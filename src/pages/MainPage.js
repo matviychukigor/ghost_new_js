@@ -1,8 +1,9 @@
 import React from 'react';
+import "../styles/MainPage.css"
 
 const MainPage = () => {
     return(
-        <div>
+        <div className="custom_container">
             MainPage
         </div>
     )

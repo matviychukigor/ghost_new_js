@@ -4,6 +4,10 @@ const $hosts = axios.create({
     baseURL: process.env.REACT_APP_AUTH_API
 })
 
+const $proxy_host = axios.create({
+    baseURL: process.env.REACT_APP_PROXY_API
+})
+
 const $authHost = axios.create({
     baseURL: process.env.REACT_APP_AUTH_API
 })
@@ -17,5 +21,6 @@ $authHost.interceptors.request.use(authInterceptor)
 
 export{
     $hosts, 
-    $authHost
+    $authHost,
+    $proxy_host
 }

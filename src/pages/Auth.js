@@ -10,7 +10,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import {LOGIN, REGISTRATION, SUCCES_REGISTRATION, SHOP_ROUTE} from "../utils/const";
-import { registration, login } from '../http/userApi';
+import { registration, login, getMe } from '../http/userApi';
 import { observer } from 'mobx-react-lite';
 import { Context } from '..';
 
@@ -49,9 +49,17 @@ const Auth = observer (() => {
                 const response = await login(email, values.password)
                 user.setUser(user)
                 user.setIsAuth(true)
+                if(user.isAuth === true) {
+                    getMe().then(data => {
+                        user.setBalance(data.balance)
+                        user.setUserName(data.nickname)
+                    }).finally(() => {
+                        setLoading(false)
+                        navigate(SHOP_ROUTE)
+                    })
+                }
                 console.log(response)
-                setLoading(false)
-                navigate(SHOP_ROUTE)
+                
             } else {
                 setLoading(false)
             }
