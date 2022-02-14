@@ -119,7 +119,8 @@ const Residential = () => {
         setPage(0);
     };
 
-    const onClickProxyHandler = (id) => {
+    const onClickProxyHandler = (id, rowProxy) => {
+      proxy.setSelecteProxy(rowProxy)
       setSelectedID(id)
       console.log(id)
     }
@@ -150,7 +151,7 @@ const Residential = () => {
                 ? proxy.proxyInfo.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 : proxy.proxyInfo
             ).map((row) => (
-                <TableRow hover selected={selectedId === row.id_proxy ? true : false} onClick={() => onClickProxyHandler(row.id_proxy)} key={row.id_proxy}>
+                <TableRow hover selected={selectedId === row.id_proxy ? true : false} onClick={() => onClickProxyHandler(row.id_proxy, row)} key={row.id_proxy}>
                   <TableCell style={{ width: "15%"}} component="th" scope="row">
                       {row.ip}
                   </TableCell>

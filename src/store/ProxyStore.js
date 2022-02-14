@@ -2,8 +2,8 @@ import {makeAutoObservable} from "mobx"
 
 export default class ProxyStore {
     constructor(){
-        this._proxyInfo = [], 
-        this._selectProxy = {}
+        this._proxyInfo = [];
+        this._selectProxy = null
         makeAutoObservable(this)
     }
 

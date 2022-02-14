@@ -1,14 +1,18 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Card, Typography } from "@mui/material";
+import { observer } from 'mobx-react-lite';
 
-const InfoBox = () => {
+import {Context} from "..";
+
+const InfoBox = observer (() => {
+    const {proxy} = useContext(Context)
     return (
         <Card sx={{ minWidth: 475, ml: 2 }}>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                Word of the Day
+                {proxy.selectProxy.id_proxy}
             </Typography>
         </Card>
     )
-}
+});
 
 export default InfoBox;
