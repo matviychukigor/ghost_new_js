@@ -1,15 +1,29 @@
-import React, {useEffect, useState} from 'react';
-import {CircularProgress, Box} from '@mui/material/';
+import React, {useEffect, useState, useContext} from 'react';
+import {CircularProgress, Box, Tab} from '@mui/material/';
+import {TabContext, TabList, TabPanel } from '@mui/lab/';
 import { getProxyWithDefault } from '../http/proxyApi';
+import Residential from '../services/Residential';
+import { Context } from '..';
 
 const Shop = () => {
+    const {proxy} = useContext(Context);
+
     const [loadin, setLoading] = useState(true)
+    const [value, setValue] = useState("1")
 
     useEffect(() => {
         getProxyWithDefault().then(data => {
-            console.log(data)
+            console.log(data.data)
+            data.data.map(elem => {
+                proxy.setProxyInfo(elem)
+                return elem
+            })
         }).finally(() => setLoading(false))
     }, [])
+
+    const handlerChange = (event, newValue) => {
+        setValue(newValue);
+    }
 
     if(loadin){
         return(
@@ -29,9 +43,22 @@ const Shop = () => {
     }
 
     return(
-        <div>
-            Shop
-        </div>
+        <Box sx={{ width: '100%', typography: 'body1' }}>
+            <TabContext value={value}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <TabList onChange={handlerChange} aria-label="lab API tabs example" centered>
+                    <Tab label="Residential/Mobile proxy" value="1" />
+                    <Tab label="Without authorization" value="2" />
+                    <Tab label="Proxy on real device" value="3" />
+                </TabList>
+                </Box>
+                <TabPanel value="1">
+                    <Residential/>
+                </TabPanel>
+                <TabPanel value="2">Item Two</TabPanel>
+                <TabPanel value="3">Item Three</TabPanel>
+            </TabContext>
+        </Box>
     )
 }
 
