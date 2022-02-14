@@ -3,7 +3,8 @@ import {makeAutoObservable} from "mobx"
 export default class ProxyStore {
     constructor(){
         this._proxyInfo = [];
-        this._selectProxy = null
+        this._selectProxy = null;
+        this._selectProxyInfo = null;
         makeAutoObservable(this)
     }
 
@@ -15,11 +16,19 @@ export default class ProxyStore {
         this._selectProxy = select
     }
 
+    setSelecteProxyInfo(info){
+        this._selectProxyInfo = info
+    }
+
     get proxyInfo () {
         return this._proxyInfo
     }
 
     get selectProxy() {
         return this._selectProxy
+    }
+
+    get selecteProxyInfo() {
+        return this._selectProxyInfo
     }
 }
