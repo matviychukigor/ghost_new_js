@@ -104,6 +104,7 @@ const Residential = () => {
     const {proxy} = useContext(Context)
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [selectedId, setSelectedID] = useState(null);
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
@@ -118,58 +119,64 @@ const Residential = () => {
         setPage(0);
     };
 
+    const onClickProxyHandler = (id) => {
+      setSelectedID(id)
+      console.log(id)
+    }
+
     return (
         <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-        <TableHead>
-            <TableRow>
-                <TableCell>IP</TableCell>
-                <TableCell align="left">HostName</TableCell>
-                <TableCell align="left">Country</TableCell>
-                <TableCell align="left">State</TableCell>
-                <TableCell align="left">City</TableCell>
-                <TableCell align="left">ZIP</TableCell>
-                <TableCell align="left">Speed</TableCell>
-                <TableCell align="left">Type</TableCell>
-                <TableCell align="left">
-                <IconButton>
-                    <FilterListIcon />
-                </IconButton>
-                </TableCell>
-            </TableRow>
+        <Table stickyHeader  sx={{ minWidth: 500 }} aria-label="sticky table">
+            <TableHead>
+                <TableRow>
+                    <TableCell>IP</TableCell>
+                    <TableCell align="left">HostName</TableCell>
+                    <TableCell align="left">Country</TableCell>
+                    <TableCell align="left">State</TableCell>
+                    <TableCell align="left">City</TableCell>
+                    <TableCell align="left">ZIP</TableCell>
+                    <TableCell align="left">Speed</TableCell>
+                    <TableCell align="left">Type</TableCell>
+                    <TableCell align="left">
+                    <IconButton>
+                        <FilterListIcon />
+                    </IconButton>
+                    </TableCell>
+                </TableRow>
             </TableHead>
+
             <TableBody>
             {(rowsPerPage > 0
                 ? proxy.proxyInfo.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 : proxy.proxyInfo
             ).map((row) => (
-                <TableRow key={row.id_proxy}>
-                <TableCell style={{ width: 60}} component="th" scope="row">
-                    {row.ip}
-                </TableCell>
-                <TableCell style={{ width: 60 }} align="left">
-                    {row.domain}
-                </TableCell>
-                <TableCell style={{ width: 100 }} align="left">
-                    {row.country}
-                </TableCell>
-                <TableCell style={{ width: "15%" }} align="left">
-                    {row.state === "" ? "---" : row.state}
-                </TableCell>
-                <TableCell style={{ width: "15%" }} align="left">
-                    {row.city === "-" || row.city === "" ? "---" : row.city}      
-                </TableCell>
-                <TableCell style={{ width: "10%" }} align="left">
-                    {row.zip === "" ? "---" : row.zip}
-                </TableCell>
-                <TableCell style={{ width: "10%" }} align="left">
-                    {row.speed}
-                </TableCell>
-                <TableCell style={{ width: "10%" }} align="left">
-                    {row.type}
-                </TableCell>
-                <TableCell style={{ width: "5%" }} align="left">
-                </TableCell>
+                <TableRow hover selected={selectedId === row.id_proxy ? true : false} onClick={() => onClickProxyHandler(row.id_proxy)} key={row.id_proxy}>
+                  <TableCell style={{ width: "15%"}} component="th" scope="row">
+                      {row.ip}
+                  </TableCell>
+                  <TableCell style={{ width: "15%" }} align="left">
+                      {row.domain}
+                  </TableCell>
+                  <TableCell style={{ width: "17%" }} align="left">
+                      {row.country}
+                  </TableCell>
+                  <TableCell style={{ width: "15%" }} align="left">
+                      {row.state === "" ? "---" : row.state}
+                  </TableCell>
+                  <TableCell style={{ width: "15%" }} align="left">
+                      {row.city === "-" || row.city === "" ? "---" : row.city}      
+                  </TableCell>
+                  <TableCell style={{ width: "10%" }} align="left">
+                      {row.zip === "" ? "---" : row.zip}
+                  </TableCell>
+                  <TableCell style={{ width: "10%" }} align="left">
+                      {row.speed}
+                  </TableCell>
+                  <TableCell style={{ width: "10%" }} align="left">
+                      {row.type}
+                  </TableCell>
+                  <TableCell style={{ width: "3%" }} align="left">
+                  </TableCell>
                 </TableRow>
             ))}
 

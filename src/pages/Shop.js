@@ -4,6 +4,7 @@ import {TabContext, TabList, TabPanel } from '@mui/lab/';
 import { getProxyWithDefault } from '../http/proxyApi';
 import Residential from '../services/Residential';
 import { Context } from '..';
+import InfoBox from '../services/InfoBox';
 
 const Shop = () => {
     const {proxy} = useContext(Context);
@@ -13,6 +14,7 @@ const Shop = () => {
 
     useEffect(() => {
         getProxyWithDefault().then(data => {
+            proxy.setSelecteProxy(data.data[0])
             console.log(data.data)
             data.data.map(elem => {
                 proxy.setProxyInfo(elem)
@@ -52,8 +54,9 @@ const Shop = () => {
                     <Tab label="Proxy on real device" value="3" />
                 </TabList>
                 </Box>
-                <TabPanel value="1">
+                <TabPanel style={{display: "flex", flexDirection:"row"}} value="1">
                     <Residential/>
+                    <InfoBox/>
                 </TabPanel>
                 <TabPanel value="2">Item Two</TabPanel>
                 <TabPanel value="3">Item Three</TabPanel>
