@@ -18,6 +18,10 @@ export default class ProxyStore {
         this._proxyInfo.push(proxy)
     }
 
+    clearProxyInfo() {
+        this._proxyInfo.clear()
+    }
+
     setSelecteProxy(select) {
         this._selectProxy = select
     }
