@@ -26,7 +26,7 @@ const InfoBox = observer (() => {
     }
 
     return (
-        <Card sx={{ minWidth: 400, ml: 2, p: 3 }}>
+        <Card sx={{ minWidth: 400, height: 520, ml: 2, p: 3 }}>
             {proxy.infoLoading ? 
             (<Box sx={{ display: 'flex', justifyContent: "center", height: "100%", alignItems: "center", top: 0, left: 0, right: 0, bottom: 0 }}>
                 <CircularProgress />
@@ -86,13 +86,13 @@ const InfoBox = observer (() => {
                 </Typography>
                 <div style={{display: "flex", justifyContent: "space-between"}}>
                     <div style={{display: "flex", flexDirection: "column"}}>
-                        <Typography sx={{ fontSize: 18, mt: 1, color: "green" }}  gutterBottom>
+                        <Typography sx={{ fontSize: 18, mt: 1, color: "green", fontWeight: 500 }}  gutterBottom>
                             For 1 day:
                         </Typography> 
-                        <Typography sx={{ fontSize: 18, mt: 1, color: "green" }}  gutterBottom>
+                        <Typography sx={{ fontSize: 18, mt: 1, color: "green", fontWeight: 500 }}  gutterBottom>
                             For 3 day:
                         </Typography> 
-                        <Typography sx={{ fontSize: 18, mt: 1, color: "green" }}  gutterBottom>
+                        <Typography sx={{ fontSize: 18, mt: 1, color: "green", fontWeight: 500 }}  gutterBottom>
                             For 7 day:
                         </Typography> 
                     </div>

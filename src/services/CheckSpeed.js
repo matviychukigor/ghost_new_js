@@ -22,8 +22,10 @@ const CheckSpeed = observer(() => {
 
     return(
         <>  
-            <div style={{display: "flex", flexDirection: "row", justifyContent: "center", marginTop: "15px"}}>
-                <SpeedIcon sx={{mr: 1, color: "#1776d2"}}/>
+            <div style={{display: "flex", justifyContent: "center", marginTop: "15px"}}>
+                <SpeedIcon sx={{mr: 1, color: "#1776d2", fontSize: 70}}/>
+            </div>
+            <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
                 <Typography sx={{ fontSize: 18, textAlign: "center", color: "#1776d2" }} color="text.secondary" gutterBottom>
                     Proxy speed: {proxy.speedProxy}
                 </Typography>
