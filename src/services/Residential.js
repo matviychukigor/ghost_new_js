@@ -120,6 +120,7 @@ const Residential = () => {
     };
 
     const onClickProxyHandler = (id, rowProxy) => {
+      proxy.setInfoLoading(true)
       proxy.setSelecteProxy(rowProxy)
       setSelectedID(id)
       console.log(id)

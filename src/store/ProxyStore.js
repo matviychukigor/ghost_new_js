@@ -5,7 +5,12 @@ export default class ProxyStore {
         this._proxyInfo = [];
         this._selectProxy = null;
         this._selectProxyInfo = null;
+        this._infoLoading = true;
         makeAutoObservable(this)
+    }
+
+    setInfoLoading(load) {
+        this._infoLoading =load
     }
 
     setProxyInfo(proxy) {
@@ -30,5 +35,9 @@ export default class ProxyStore {
 
     get selecteProxyInfo() {
         return this._selectProxyInfo
+    }
+
+    get infoLoading(){
+        return this._infoLoading
     }
 }
