@@ -2,8 +2,10 @@ import React, {useContext, useEffect, useState} from "react";
 import { Card, Typography, CircularProgress, Box, Button, Tab, } from "@mui/material";
 import {TabContext, TabList, TabPanel } from '@mui/lab/';
 import RouterIcon from '@mui/icons-material/Router';
-import { getProxyInfo, getProxySpeed } from '../http/proxyApi';
+import { getProxyInfo } from '../http/proxyApi';
 import { observer } from 'mobx-react-lite';
+
+import CheckSpeed from "../services/CheckSpeed";
 
 import {Context} from "..";
 
@@ -23,7 +25,7 @@ const InfoBox = observer (() => {
     }
 
     return (
-        <Card sx={{ minWidth: 475, ml: 2, p: 3 }}>
+        <Card sx={{ minWidth: 400, ml: 2, p: 3 }}>
             {proxy.infoLoading ? 
             (<Box sx={{ display: 'flex', justifyContent: "center", height: "100%", alignItems: "center", top: 0, left: 0, right: 0, bottom: 0 }}>
                 <CircularProgress />
@@ -32,7 +34,7 @@ const InfoBox = observer (() => {
             <>
                 <div style={{display: "flex"}}>
                 
-                    <div style={{display: "flex", marginRight: 20}}>
+                    <div style={{display: "flex", marginRight: 10}}>
                         <div style={{display: "flex", flexDirection: "column", marginRight: 20}}>
                             <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>
                                 Country: 
@@ -49,10 +51,10 @@ const InfoBox = observer (() => {
                                 {proxy.selecteProxyInfo.country}
                             </Typography>
                             <Typography sx={{justifyContent: "center", fontSize: 20}} variant="h6">
-                                {proxy.selecteProxyInfo.city}
+                                {proxy.selecteProxyInfo.city  === "" ? "---" : proxy.selecteProxyInfo.city}
                             </Typography>
                             <Typography sx={{justifyContent: "center", fontSize: 20}} variant="h6">
-                                {proxy.selecteProxyInfo.state}
+                                {proxy.selecteProxyInfo.state === "" ? "---" : proxy.selecteProxyInfo.state}
                             </Typography>
                         </div>
                     </div> 
@@ -60,19 +62,20 @@ const InfoBox = observer (() => {
                     <div style={{display: "flex"}}>
                         <div style={{display: "flex", flexDirection: "column", marginRight: 20}}>
                             <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>
-                                ZIP code: 
+                                ZIP: 
                             </Typography> 
                             <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>
-                                Type proxy: 
+                                Type: 
                             </Typography> 
                         </div>
                         <div style={{display: "flex",flexDirection: "column"}}>
                             <Typography sx={{justifyContent: "center", fontSize: 20, color: "brown"}} variant="h6">
-                                {proxy.selecteProxyInfo.zip}
+                                {proxy.selecteProxyInfo.zip === "" ? "---" : proxy.selecteProxyInfo.zip}
                             </Typography>
                             <Typography sx={{justifyContent: "center", fontSize: 20}} variant="h6">
-                                {proxy.selecteProxyInfo.type_proxy} <RouterIcon color="success"/>
+                                {proxy.selecteProxyInfo.type_proxy} 
                             </Typography>
+                            <RouterIcon color="success"/>
                         </div>
                     </div>
                 </div>
@@ -82,13 +85,13 @@ const InfoBox = observer (() => {
                 </Typography>
                 <div style={{display: "flex", justifyContent: "space-between"}}>
                     <div style={{display: "flex", flexDirection: "column"}}>
-                        <Typography sx={{ fontSize: 18, mt: 1 }} color="text.secondary" gutterBottom>
+                        <Typography sx={{ fontSize: 18, mt: 1, color: "green" }}  gutterBottom>
                             For 1 day:
                         </Typography> 
-                        <Typography sx={{ fontSize: 18, mt: 1 }} color="text.secondary" gutterBottom>
+                        <Typography sx={{ fontSize: 18, mt: 1, color: "green" }}  gutterBottom>
                             For 3 day:
                         </Typography> 
-                        <Typography sx={{ fontSize: 18, mt: 1 }} color="text.secondary" gutterBottom>
+                        <Typography sx={{ fontSize: 18, mt: 1, color: "green" }}  gutterBottom>
                             For 7 day:
                         </Typography> 
                     </div>
@@ -111,8 +114,8 @@ const InfoBox = observer (() => {
                             <Tab label="Check DNS" value="2" />
                         </TabList>
                     </Box>
-                    <TabPanel style={{display: "flex", flexDirection:"row"}} value="1">
-                        Speed
+                    <TabPanel style={{display: "flex", flexDirection:"column", justifyContent: "center"}} value="1">
+                        <CheckSpeed/>
                     </TabPanel>
                     <TabPanel style={{display: "flex", flexDirection:"row"}} value="2">
                         Item Two

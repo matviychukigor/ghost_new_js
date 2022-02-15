@@ -15,6 +15,7 @@ const Shop = () => {
     useEffect(() => {
         getProxyWithDefault().then(data => {
             proxy.setSelecteProxy(data.data[0])
+            proxy.setSpeedProxy(data.data[0].speed)
             console.log(data.data)
             data.data.map(elem => {
                 proxy.setProxyInfo(elem)

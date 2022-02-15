@@ -6,6 +6,7 @@ export default class ProxyStore {
         this._selectProxy = null;
         this._selectProxyInfo = null;
         this._infoLoading = true;
+        this._speedProxy = null;
         makeAutoObservable(this)
     }
 
@@ -25,6 +26,10 @@ export default class ProxyStore {
         this._selectProxyInfo = info
     }
 
+    setSpeedProxy(speed){
+        this._speedProxy = speed
+    }
+
     get proxyInfo () {
         return this._proxyInfo
     }
@@ -39,5 +44,9 @@ export default class ProxyStore {
 
     get infoLoading(){
         return this._infoLoading
+    }
+
+    get speedProxy() {
+        return this._speedProxy
     }
 }
