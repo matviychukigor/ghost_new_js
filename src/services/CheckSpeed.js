@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import { Typography } from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton';
 import SpeedIcon from '@mui/icons-material/Speed';
@@ -6,15 +6,10 @@ import NetworkCheckIcon from '@mui/icons-material/NetworkCheck';
 import { getProxySpeed } from '../http/proxyApi';
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
-import { ConstructionOutlined } from '@mui/icons-material';
 
 const CheckSpeed = observer(() => {
     const {proxy} = useContext(Context)
     const [loading, setLoading] = useState(false);
-
-    useEffect(()=>{
-        getProxySpeed(proxy.selectProxy.id_proxy)
-    }, [])
 
     const speedOnClick = (id) => {
         setLoading(true)
@@ -27,7 +22,7 @@ const CheckSpeed = observer(() => {
 
     return(
         <>  
-            <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
+            <div style={{display: "flex", flexDirection: "row", justifyContent: "center", marginTop: "15px"}}>
                 <SpeedIcon sx={{mr: 1, color: "#1776d2"}}/>
                 <Typography sx={{ fontSize: 18, textAlign: "center", color: "#1776d2" }} color="text.secondary" gutterBottom>
                     Proxy speed: {proxy.speedProxy}

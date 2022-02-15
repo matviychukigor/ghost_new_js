@@ -14,3 +14,8 @@ export const getProxySpeed = async (id) => {
     const {data} = await $proxy_host.get(`site/check-speed?id=${id}`)
     return data
 }
+
+export const getDNSCheck = async (id) => {
+    const {data} = await $proxy_host.get(`site/check-dns?id=${id}`)
+    return data
+}

@@ -5,7 +5,8 @@ import RouterIcon from '@mui/icons-material/Router';
 import { getProxyInfo } from '../http/proxyApi';
 import { observer } from 'mobx-react-lite';
 
-import CheckSpeed from "../services/CheckSpeed";
+import CheckSpeed from "./CheckSpeed";
+import CheckDns from "./CheckDns";
 
 import {Context} from "..";
 
@@ -108,17 +109,17 @@ const InfoBox = observer (() => {
                     </div>
                 </div>
                 <TabContext value={value}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Box>
                         <TabList onChange={handlerChange} aria-label="lab API tabs example" centered>
                             <Tab label="Proxy speed" value="1" />
                             <Tab label="Check DNS" value="2" />
                         </TabList>
                     </Box>
-                    <TabPanel style={{display: "flex", flexDirection:"column", justifyContent: "center"}} value="1">
+                    <TabPanel style={{display: "flex", flexDirection:"column", justifyContent: "center", padding: "0px"}} value="1">
                         <CheckSpeed/>
                     </TabPanel>
-                    <TabPanel style={{display: "flex", flexDirection:"row"}} value="2">
-                        Item Two
+                    <TabPanel style={{display: "flex", flexDirection:"column", justifyContent: "center"}} value="2">
+                        <CheckDns/>
                     </TabPanel>
                 </TabContext>
             </>
