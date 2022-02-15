@@ -1,13 +1,15 @@
-import React, {useContext, useEffect} from "react";
-import { Card, Typography, CircularProgress, Box, Button } from "@mui/material";
+import React, {useContext, useEffect, useState} from "react";
+import { Card, Typography, CircularProgress, Box, Button, Tab, } from "@mui/material";
+import {TabContext, TabList, TabPanel } from '@mui/lab/';
 import RouterIcon from '@mui/icons-material/Router';
-import { getProxyInfo } from '../http/proxyApi';
+import { getProxyInfo, getProxySpeed } from '../http/proxyApi';
 import { observer } from 'mobx-react-lite';
 
 import {Context} from "..";
 
 const InfoBox = observer (() => {
     const {proxy} = useContext(Context)
+    const [value, setValue] = useState("1")
 
     useEffect(() => {
         getProxyInfo(proxy.selectProxy.id_proxy).then(data => {
@@ -15,6 +17,10 @@ const InfoBox = observer (() => {
             console.log(data.data)
         }).finally(() => proxy.setInfoLoading(false))
     }, [proxy.selectProxy])
+
+    const handlerChange = (event, newValue) => {
+        setValue(newValue);
+    }
 
     return (
         <Card sx={{ minWidth: 475, ml: 2, p: 3 }}>
@@ -98,6 +104,20 @@ const InfoBox = observer (() => {
                         </Button>
                     </div>
                 </div>
+                <TabContext value={value}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <TabList onChange={handlerChange} aria-label="lab API tabs example" centered>
+                            <Tab label="Proxy speed" value="1" />
+                            <Tab label="Check DNS" value="2" />
+                        </TabList>
+                    </Box>
+                    <TabPanel style={{display: "flex", flexDirection:"row"}} value="1">
+                        Speed
+                    </TabPanel>
+                    <TabPanel style={{display: "flex", flexDirection:"row"}} value="2">
+                        Item Two
+                    </TabPanel>
+                </TabContext>
             </>
         ) }
         </Card>

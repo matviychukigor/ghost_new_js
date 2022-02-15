@@ -9,3 +9,8 @@ export const getProxyInfo = async (id) => {
     const {data} = await $proxy_host.get(`site/get_info_proxy/${id}`)
     return data
 }
+
+export const getProxySpeed = async (id) => {
+    const {data} = await $proxy_host.get(`site/check-speed?id=${id}`)
+    return data
+}
