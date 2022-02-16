@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useRef} from "react";
 import StorageIcon from '@mui/icons-material/Storage';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
@@ -8,19 +8,25 @@ import { getDNSCheck } from '../http/proxyApi';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 
+
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
 const CheckDns = observer(() => {
     const {proxy} = useContext(Context)
     const [loading, setLoading] = useState(false)
     const [dnsChecking, setDnsChecking] = useState("null")
+    const componentMounted = useRef(true)
 
     const dnsOnClick = (id) => {
         setLoading(true)
-        getDNSCheck(id).then(data => {
-            setDnsChecking(data.data)
-            console.log(data.data)
-            setLoading(false)
+        getDNSCheck(id)
+        .then(data => {
+            if(componentMounted.current){
+                setDnsChecking(data.data)
+                console.log(data.data)
+                setLoading(false)
+            }
+            return () => {componentMounted.current = false}
         })
     }
 

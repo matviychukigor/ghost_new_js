@@ -15,10 +15,12 @@ const InfoBox = observer (() => {
     const [value, setValue] = useState("1")
 
     useEffect(() => {
-        getProxyInfo(proxy.selectProxy.id_proxy).then(data => {
-            proxy.setSelecteProxyInfo(data.data)
-            console.log(data.data)
-        }).finally(() => proxy.setInfoLoading(false))
+        if(proxy.selectProxy !== null){
+            getProxyInfo(proxy.selectProxy.id_proxy).then(data => {
+                proxy.setSelecteProxyInfo(data.data)
+                console.log(data.data)
+            }).finally(() => proxy.setInfoLoading(false))
+        }
     }, [proxy.selectProxy])
 
     const handlerChange = (event, newValue) => {

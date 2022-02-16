@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {CircularProgress, Box, Tab} from '@mui/material/';
+import { Box, Tab} from '@mui/material/';
 import {TabContext, TabList, TabPanel} from '@mui/lab/';
 import {getProxyWithDefault} from '../http/proxyApi';
 import Residential from '../services/Residential';
@@ -147,7 +147,7 @@ const Shop = () => {
                                     <span style={{marginLeft: 10}}>Italy</span>
                                 </CustomTab>
                                 <CustomTab value='China'>
-                                    <Flags.CH title="China" style={{height: 24, width: 24}}/>
+                                    <Flags.CN title="China" style={{height: 24, width: 24}}/>
                                     <span style={{marginLeft: 10}}>China</span>
                                 </CustomTab>
                             </CustomTabsList>
