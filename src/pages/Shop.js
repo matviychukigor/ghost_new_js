@@ -95,7 +95,7 @@ const Shop = () => {
         proxy.setInfoLoading(true)
 
         getProxyWithDefault(country).then(data => {
-            proxy.setSelecteProxy(null)
+            proxy.setSelecteProxy(data.data[0].proxy_id)
             proxy.clearProxyInfo()
 
             proxy.setSelecteProxy(data.data[0])
