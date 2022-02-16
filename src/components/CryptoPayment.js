@@ -48,18 +48,21 @@ const CryptoPayment = () => {
     }
 
     return(
-        <Card sx={{ maxWidth: "30%" }}>
+        <Card sx={{ maxWidth: "30%", marginTop: 5 }}>
             <div style={{display: "flex", justifyContent: "center", marginTop: "20px"}}>
                 <Typography gutterBottom variant="h5" component="div" sx={{fontWeight: 800, fontSize: "30px", fontFamily: "sans-serif", color: "#1776d2"}}>
                     Cryptocurrensy payment
                 </Typography>
             </div>
-            <CardMedia
-                component="img"
-                height="100%"
-                image={bitcoin}
-                alt="green iguana"
-            />
+            <div style={{width: "100%"}}>
+                <CardMedia
+                    component="img"
+                    height="100%"
+                    image={bitcoin}
+                    alt="green iguana"
+                />
+            </div>
+            
             <CardContent>
                 <Typography variant="body2" color="text.secondary" sx={{textAlign: "justify", fontFamily: "cursive", color: "#1776d2", fontWeight: 600, fontSize: 15}}>
                     We've done our best to allow you to send your payments with maximum anonymity. You can pay for our services with such cryptocurrencies as Bitcoin Dash Litecoin Dogecoin, Etherium
@@ -79,9 +82,8 @@ const CryptoPayment = () => {
                 />
                 </div>
             </CardContent>
-            <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
+            <CardActions sx={{display: "flex", justifyContent: "center", paddingBottom: 5}}>
+                <Button sx={{width: "50%"}} variant="contained">Pay</Button>
             </CardActions>
         </Card>
     )

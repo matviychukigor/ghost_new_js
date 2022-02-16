@@ -21,7 +21,9 @@ const Payments = () => {
                     <Tab label="replenishment history" value="2" />
                 </TabList>
             </Box>
-            <TabPanel style={{display: "flex", flexDirection:"column", justifyContent: "center", paddingTop: 0, paddingBottom: 0, paddingRight: "60px", paddingLeft: "60px"}} value="1">
+            <TabPanel style={{display: "flex", flexDirection:"row", justifyContent: "space-around", paddingTop: 0, paddingBottom: 0, paddingRight: "60px", paddingLeft: "60px"}} value="1">
+                <CryptoPayment/>
+                <CryptoPayment/>
                 <CryptoPayment/>
             </TabPanel>
             <TabPanel style={{display: "flex", flexDirection:"column", justifyContent: "center"}} value="2">
