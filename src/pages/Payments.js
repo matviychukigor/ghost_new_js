@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import Tab from '@mui/material/Tab';
 import {TabContext, TabList, TabPanel } from '@mui/lab/';
-import CreatePaymet from "../components/Create payment"
+import CryptoPayment from '../components/CryptoPayment';
 /* import Typography from '@mui/material/Typography'; */
 import Box from '@mui/material/Box';
 
@@ -21,8 +21,8 @@ const Payments = () => {
                     <Tab label="replenishment history" value="2" />
                 </TabList>
             </Box>
-            <TabPanel style={{display: "flex", flexDirection:"column", justifyContent: "center", padding: "0px"}} value="1">
-                <CreatePaymet/>
+            <TabPanel style={{display: "flex", flexDirection:"column", justifyContent: "center", paddingTop: 0, paddingBottom: 0, paddingRight: "60px", paddingLeft: "60px"}} value="1">
+                <CryptoPayment/>
             </TabPanel>
             <TabPanel style={{display: "flex", flexDirection:"column", justifyContent: "center"}} value="2">
                 Tabs 2

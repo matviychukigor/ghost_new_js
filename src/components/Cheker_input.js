@@ -155,7 +155,7 @@ CustomSelect.propTypes = {
   }),
 };
 
-export default function CreatePaymet() {
+export default function ChekerInput() {
   return (
     <CustomSelect>
       {countries.map((c) => (
