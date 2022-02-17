@@ -3,9 +3,13 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import PaymentsIcon from '@mui/icons-material/Payments';
+import LoadingButton from '@mui/lab/LoadingButton';
+
+import {getCryptoLinkPay} from "../http/payments"
+
 import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
 
@@ -40,11 +44,21 @@ onChange: PropTypes.func.isRequired,
 };
 
 const CryptoPayment = () => {
-
+    
     const [inputValue, setInputValue] = useState(10)
+    const [loading, setLoading] = useState(false)
 
     const changeSumCrypto = (e) => {
         setInputValue(e.target.value)
+    }
+
+    const handleClick = () => {
+        setLoading(true)
+        getCryptoLinkPay(inputValue).then(link => {
+            console.log(link)
+            window.open(link.data, '_blank');
+            setLoading(false)
+        })
     }
 
     return(
@@ -83,7 +97,15 @@ const CryptoPayment = () => {
                 </div>
             </CardContent>
             <CardActions sx={{display: "flex", justifyContent: "center", paddingBottom: 5}}>
-                <Button sx={{width: "50%"}} variant="contained">Pay</Button>
+            <LoadingButton
+                onClick={handleClick}
+                endIcon={<PaymentsIcon />}
+                loading={loading}
+                loadingPosition="end"
+                variant="contained"
+            >
+                Pay
+            </LoadingButton>
             </CardActions>
         </Card>
     )
