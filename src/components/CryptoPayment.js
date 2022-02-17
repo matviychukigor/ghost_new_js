@@ -78,7 +78,7 @@ const CryptoPayment = () => {
             </div>
             
             <CardContent>
-                <Typography variant="body2" color="text.secondary" sx={{textAlign: "justify", fontFamily: "cursive", color: "#1776d2", fontWeight: 600, fontSize: 15}}>
+                <Typography variant="body2" color="text.secondary" sx={{textAlign: "justify", fontFamily: "sans-serif", color: "#1776d2", fontWeight: 600, fontSize: 15, height: 100}}>
                     We've done our best to allow you to send your payments with maximum anonymity. You can pay for our services with such cryptocurrencies as Bitcoin Dash Litecoin Dogecoin, Etherium
                 </Typography>
                 <div style={{marginTop: 15, display: "flex", justifyContent: "center"}}>
@@ -98,6 +98,7 @@ const CryptoPayment = () => {
             </CardContent>
             <CardActions sx={{display: "flex", justifyContent: "center", paddingBottom: 5}}>
             <LoadingButton
+                sx={{width:"50%"}}
                 onClick={handleClick}
                 endIcon={<PaymentsIcon />}
                 loading={loading}

@@ -155,9 +155,10 @@ CustomSelect.propTypes = {
   }),
 };
 
-export default function ChekerInput() {
+export default function ChekerInput({countries}) {
+  const [value, setValue] = React.useState(countries[0].code)
   return (
-    <CustomSelect>
+    <CustomSelect value={value} onChange={setValue}>
       {countries.map((c) => (
         <StyledOption key={c.code} value={c.code}>
           <img
@@ -173,8 +174,3 @@ export default function ChekerInput() {
     </CustomSelect>
   );
 }
-
-const countries = [
-  { code: 'UA', label: 'Ukraine CARD'},
-  { code: 'RU', label: 'Russia CARD' }
-]

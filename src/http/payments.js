@@ -5,6 +5,7 @@ export const getCryptoLinkPay = async (amount) => {
     return link
 }
 
-export const getCardLinkPay = async (amount) => {
-    const link = await $authHost.get(`merchant/create_crypto_pay?amount_fiat=`)
+export const getCardLinkPay = async (amount, type) => {
+    const link = await $authHost.get(`merchant/create_zver_pay?amount_fiat=${amount}&type=${type}`)
+    return link
 }
