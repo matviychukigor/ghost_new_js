@@ -167,6 +167,8 @@ const ChekerInput = observer (({countries}) => {
     setValue(e)
     if(e.type === "card"){
       payment.setSelectCardCountry(e)
+    } else if(e.type === "qiwi") {
+      payment.setSelectQiwiCountry(e)
     }
     console.log(e.code)
   }

@@ -10,7 +10,7 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import LoadingButton from '@mui/lab/LoadingButton';
 import ChekerInput from "./Cheker_input";
 
-import { getCardLinkPay } from "../http/payments";
+import { getQiwiLinkPay } from "../http/payments";
 
 import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react-lite';
 import { Context } from '..';
 
-import bitcoin from "../img/bitcoin.png"
+import visa from "../img/qiwi-card.png"
 
 const NumberFormatCustom = forwardRef(function NumberFormatCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -47,7 +47,7 @@ name: PropTypes.string.isRequired,
 onChange: PropTypes.func.isRequired,
 };
 
-const CardPayment = observer (() => {
+const QiwiPayment = observer (() => {
 
     const {payment} = useContext(Context)
 
@@ -60,7 +60,7 @@ const CardPayment = observer (() => {
 
     const handleClick = () =>{
         setLoading(true)
-        getCardLinkPay(inputCard, payment.selectCardCountry.code).then(link => {
+        getQiwiLinkPay(inputCard, payment.selectCardQiwi.merch_code).then(link => {
             console.log(link.data.url)
             window.open(link.data.url, '_blank');
             setLoading(false)
@@ -71,14 +71,14 @@ const CardPayment = observer (() => {
         <Card sx={{ maxWidth: "30%", marginTop: 5 }}>
             <div style={{display: "flex", justifyContent: "center", marginTop: "20px"}}>
                 <Typography gutterBottom variant="h5" component="div" sx={{fontWeight: 800, fontSize: "30px", fontFamily: "sans-serif", color: "#1776d2"}}>
-                    VISA MasterCard  payment
+                    QIWI payment
                 </Typography>
             </div>
             <div style={{width: "100%"}}>
                 <CardMedia
                     component="img"
-                    height="100%"
-                    image={bitcoin}
+                    height="350px"
+                    image={visa}
                     alt="green iguana"
                 />
             </div>
@@ -103,7 +103,7 @@ const CardPayment = observer (() => {
                 
                 </div>
                 <div style={{marginTop: 15, display: "flex", justifyContent: "center"}}>
-                    <ChekerInput sx={{width: "30%"}} countries={payment.countryCardStore}/>
+                    <ChekerInput sx={{width: "30%"}} countries={payment.qiwiCountryStore}/>
                 </div>
             </CardContent>
             <CardActions sx={{display: "flex", justifyContent: "center", paddingBottom: 5}}>
@@ -123,4 +123,4 @@ const CardPayment = observer (() => {
 });
 
 
-export default CardPayment;
+export default QiwiPayment;

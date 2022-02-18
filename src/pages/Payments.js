@@ -4,6 +4,7 @@ import Tab from '@mui/material/Tab';
 import {TabContext, TabList, TabPanel } from '@mui/lab/';
 import CryptoPayment from '../components/CryptoPayment';
 import CardPayment from "../components/CardPayment";
+import QiwiPayment from '../components/QiwiPayment';
 /* import Typography from '@mui/material/Typography'; */
 import Box from '@mui/material/Box';
 
@@ -25,7 +26,7 @@ const Payments = () => {
             <TabPanel style={{display: "flex", flexDirection:"row", justifyContent: "space-around", paddingTop: 0, paddingBottom: 0, paddingRight: "60px", paddingLeft: "60px"}} value="1">
                 <CryptoPayment/>
                 <CardPayment/>
-                <CryptoPayment/>
+                <QiwiPayment/>
             </TabPanel>
             <TabPanel style={{display: "flex", flexDirection:"column", justifyContent: "center"}} value="2">
                 Tabs 2
