@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react-lite';
 import { Context } from '..';
 
-import visa from "../img/Visa.png"
+import bitcoin from "../img/bitcoin.png"
 
 const NumberFormatCustom = forwardRef(function NumberFormatCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -77,8 +77,8 @@ const CardPayment = observer (() => {
             <div style={{width: "100%"}}>
                 <CardMedia
                     component="img"
-                    height="350px"
-                    image={visa}
+                    height="100%"
+                    image={bitcoin}
                     alt="green iguana"
                 />
             </div>

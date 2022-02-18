@@ -1,9 +1,12 @@
-import * as React from 'react';
+import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import SelectUnstyled, { selectUnstyledClasses } from '@mui/base/SelectUnstyled';
 import OptionUnstyled, { optionUnstyledClasses } from '@mui/base/OptionUnstyled';
 import { styled } from '@mui/system';
 import { PopperUnstyled } from '@mui/base';
+
+import { observer } from 'mobx-react-lite';
+import { Context } from '..';
 
 const blue = {
   100: '#DAECFF',
@@ -32,7 +35,7 @@ const StyledButton = styled('button')(
   font-size: 0.875rem;
   box-sizing: border-box;
   min-height: calc(1.5em + 22px);
-  min-width: 320px;
+  min-width: 50%;
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[800] : grey[300]};
   border-radius: 0.75em;
@@ -75,7 +78,7 @@ const StyledListbox = styled('ul')(
   box-sizing: border-box;
   padding: 5px;
   margin: 10px 0;
-  min-width: 320px;
+  width: "70%";
   max-height: 400px;
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[800] : grey[300]};
@@ -155,12 +158,22 @@ CustomSelect.propTypes = {
   }),
 };
 
-export default function ChekerInput({countries}) {
-  const [value, setValue] = React.useState(countries[0].code)
+const ChekerInput = observer (({countries}) => {
+
+  const {payment} = useContext(Context)
+
+  const [value, setValue] = useState(countries[0])
+  const onChange = (e) => {
+    setValue(e)
+    if(e.type === "card"){
+      payment.setSelectCardCountry(e)
+    }
+    console.log(e.code)
+  }
   return (
-    <CustomSelect value={value} onChange={setValue}>
+    <CustomSelect value={value} onChange={(e) => onChange(e)}>
       {countries.map((c) => (
-        <StyledOption key={c.code} value={c.code}>
+        <StyledOption key={c.code} value={c}>
           <img
             loading="lazy"
             width="20"
@@ -173,4 +186,6 @@ export default function ChekerInput({countries}) {
       ))}
     </CustomSelect>
   );
-}
+})
+
+export default ChekerInput;
