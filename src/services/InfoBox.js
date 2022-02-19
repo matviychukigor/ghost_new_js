@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import { Card, Typography, CircularProgress, Box, Button, Tab, } from "@mui/material";
 import {TabContext, TabList, TabPanel } from '@mui/lab/';
 import RouterIcon from '@mui/icons-material/Router';
-import { getProxyInfo } from '../http/proxyApi';
+import { getProxyInfo, buyProxy } from '../http/proxyApi';
 import { observer } from 'mobx-react-lite';
 
 import CheckSpeed from "./CheckSpeed";
@@ -25,6 +25,13 @@ const InfoBox = observer (() => {
 
     const handlerChange = (event, newValue) => {
         setValue(newValue);
+    }
+
+    const buyProxys = (id, period) => {
+        buyProxy(id, period).then(data => {
+            console.log(data)
+            proxy.setSellProxy(data)
+        })
     }
 
     return (
@@ -99,13 +106,26 @@ const InfoBox = observer (() => {
                         </Typography> 
                     </div>
                     <div style={{display: "flex", flexDirection: "column"}}>
-                        <Button sx={{width: 180}} variant="outlined" size="large">
+                        <Button 
+                            sx={{width: 180}} 
+                            variant="outlined" 
+                            size="large"
+                            onClick={() => buyProxys(proxy.selectProxy.id_proxy, "1")}
+                        >
                             {proxy.selecteProxyInfo.periods[0].price.toFixed(2) + "$"}
                         </Button>
-                        <Button variant="outlined" size="large">
+                        <Button 
+                            variant="outlined" 
+                            size="large"
+                            onClick={() => buyProxys(proxy.selectProxy.id_proxy, "3")}
+                        >
                             {proxy.selecteProxyInfo.periods[1].price.toFixed(2) + "$"}
                         </Button>
-                        <Button variant="outlined" size="large">
+                        <Button 
+                            variant="outlined" 
+                            size="large"
+                            onClick={() => buyProxys(proxy.selectProxy.id_proxy, "7")}
+                        >
                             {proxy.selecteProxyInfo.periods[2].price.toFixed(2) + "$"}
                         </Button>
                     </div>
