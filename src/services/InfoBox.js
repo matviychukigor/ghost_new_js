@@ -8,6 +8,7 @@ import { observer } from 'mobx-react-lite';
 
 import CheckSpeed from "./CheckSpeed";
 import CheckDns from "./CheckDns";
+import SellModal from "../components/SellModal"
 
 import {Context} from "..";
 
@@ -31,11 +32,12 @@ const InfoBox = observer (() => {
 
     const buyProxys = (id, period) => {
         setLoadingPrice(true)
-        buyProxy(id, period).then(data => {
+        proxy.setModalOn(true)
+        /* buyProxy(id, period).then(data => {
             setLoadingPrice(false)
             console.log(data)
             proxy.setSellProxy(data)
-        })
+        }) */
     }
 
     return (
@@ -110,6 +112,7 @@ const InfoBox = observer (() => {
                         </Typography> 
                     </div>
                     <div style={{display: "flex", flexDirection: "column"}}>
+                        <SellModal/>
                         <LoadingButton 
                             sx={{width: 180}} 
                             variant="outlined" 
