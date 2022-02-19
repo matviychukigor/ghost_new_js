@@ -3,6 +3,8 @@ import React, {useContext} from 'react'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import Loader from "../components/Loader";
+
 import { observer } from 'mobx-react-lite';
 import { Context } from '..';
 
@@ -38,10 +40,46 @@ const SellModal = observer (() => {
                             Your proxy:
                         </Typography>
                     </div>
-                
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                </Typography>
+                    <div style={{display: "flex"}}>
+                        <div style={{display: "flex", flexDirection: "column", marginRight: "100px"}}>
+                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                Login: 
+                            </Typography>
+                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                Password: 
+                            </Typography>
+                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                Real IP: 
+                            </Typography>
+                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                IP: 
+                            </Typography>
+                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                PORT: 
+                            </Typography>
+                        </div>
+                        <div style={{display: "flex", flexDirection: "column"}}>
+                            {proxy.sellProxy === null ? <Loader/> : 
+                                <div>
+                                    <Typography id="modal-modal-description" sx={{ mt: 2, color: "#1776d2" }}>
+                                        {proxy.sellProxy.data.login} 
+                                    </Typography>
+                                    <Typography id="modal-modal-description" sx={{ mt: 2, color: "#1776d2" }}>
+                                        {proxy.sellProxy.data.password}
+                                    </Typography>
+                                    <Typography id="modal-modal-description" sx={{ mt: 2, color: "#1776d2" }}>
+                                        {proxy.sellProxy.data.real_ip}
+                                    </Typography>
+                                    <Typography id="modal-modal-description" sx={{ mt: 2, color: "#1776d2" }}>
+                                        {proxy.sellProxy.data.ip}
+                                    </Typography>
+                                    <Typography id="modal-modal-description" sx={{ mt: 2, color: "#1776d2" }}>
+                                        {proxy.sellProxy.data.port}
+                                    </Typography> 
+                                </div>
+                            }
+                        </div>
+                    </div>
                 </Box>
             </Modal>
         </div>

@@ -33,11 +33,11 @@ const InfoBox = observer (() => {
     const buyProxys = (id, period) => {
         setLoadingPrice(true)
         proxy.setModalOn(true)
-        /* buyProxy(id, period).then(data => {
+        buyProxy(id, period).then(data => {
             setLoadingPrice(false)
             console.log(data)
             proxy.setSellProxy(data)
-        }) */
+        })
     }
 
     return (

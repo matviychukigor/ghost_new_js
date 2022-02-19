@@ -8,7 +8,7 @@ export default class ProxyStore {
         this._infoLoading = true;
         this._speedProxy = null;
         this._sellProxy = null;
-        this._modalOn = true;
+        this._modalOn = false;
         makeAutoObservable(this)
     }
 
@@ -71,4 +71,5 @@ export default class ProxyStore {
     get modalOn() {
         return this._modalOn
     }
+
 }
