@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
-import { Card, Typography, CircularProgress, Box, Button, Tab, } from "@mui/material";
+import { Card, Typography, CircularProgress, Box, Tab, } from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton';
 import {TabContext, TabList, TabPanel } from '@mui/lab/';
 import RouterIcon from '@mui/icons-material/Router';
 import { getProxyInfo, buyProxy } from '../http/proxyApi';
@@ -13,6 +14,7 @@ import {Context} from "..";
 const InfoBox = observer (() => {
     const {proxy} = useContext(Context)
     const [value, setValue] = useState("1")
+    const [loadingPrice, setLoadingPrice] = useState(false)
 
     useEffect(() => {
         if(proxy.selectProxy !== null){
@@ -28,7 +30,9 @@ const InfoBox = observer (() => {
     }
 
     const buyProxys = (id, period) => {
+        setLoadingPrice(true)
         buyProxy(id, period).then(data => {
+            setLoadingPrice(false)
             console.log(data)
             proxy.setSellProxy(data)
         })
@@ -106,28 +110,31 @@ const InfoBox = observer (() => {
                         </Typography> 
                     </div>
                     <div style={{display: "flex", flexDirection: "column"}}>
-                        <Button 
+                        <LoadingButton 
                             sx={{width: 180}} 
                             variant="outlined" 
                             size="large"
+                            loading={loadingPrice}
                             onClick={() => buyProxys(proxy.selectProxy.id_proxy, "1")}
                         >
                             {proxy.selecteProxyInfo.periods[0].price.toFixed(2) + "$"}
-                        </Button>
-                        <Button 
+                        </LoadingButton>
+                        <LoadingButton 
                             variant="outlined" 
                             size="large"
+                            loading={loadingPrice}
                             onClick={() => buyProxys(proxy.selectProxy.id_proxy, "3")}
                         >
                             {proxy.selecteProxyInfo.periods[1].price.toFixed(2) + "$"}
-                        </Button>
-                        <Button 
+                        </LoadingButton>
+                        <LoadingButton 
                             variant="outlined" 
                             size="large"
+                            loading={loadingPrice}
                             onClick={() => buyProxys(proxy.selectProxy.id_proxy, "7")}
                         >
                             {proxy.selecteProxyInfo.periods[2].price.toFixed(2) + "$"}
-                        </Button>
+                        </LoadingButton>
                     </div>
                 </div>
                 <TabContext value={value}>
