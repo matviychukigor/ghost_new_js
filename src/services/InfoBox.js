@@ -3,7 +3,10 @@ import { Card, Typography, CircularProgress, Box, Tab, } from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton';
 import {TabContext, TabList, TabPanel } from '@mui/lab/';
 import RouterIcon from '@mui/icons-material/Router';
+
 import { getProxyInfo, buyProxy } from '../http/proxyApi';
+import { getMe } from '../http/userApi';
+
 import { observer } from 'mobx-react-lite';
 
 import CheckSpeed from "./CheckSpeed";
@@ -13,7 +16,7 @@ import SellModal from "../components/SellModal"
 import {Context} from "..";
 
 const InfoBox = observer (() => {
-    const {proxy} = useContext(Context)
+    const {proxy, user} = useContext(Context)
     const [value, setValue] = useState("1")
     const [loadingPrice, setLoadingPrice] = useState(false)
 
@@ -33,6 +36,9 @@ const InfoBox = observer (() => {
     const buyProxys = (id, period) => {
         setLoadingPrice(true)
         proxy.setModalOn(true)
+        getMe().then(data => {
+            user.setBalance(data.balance)
+        })
         buyProxy(id, period).then(data => {
             setLoadingPrice(false)
             console.log(data)
