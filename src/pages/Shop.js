@@ -1,10 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import { Box, Tab} from '@mui/material/';
 import {TabContext, TabList, TabPanel} from '@mui/lab/';
-import {getProxyWithDefault} from '../http/proxyApi';
-import Residential from '../services/Residential';
-import {Context} from '..';
-import InfoBox from '../services/InfoBox';
 import Flags from "country-flag-icons/react/3x2";
 import TabsUnstyled from "@mui/base/TabsUnstyled";
 import {styled} from "@mui/system";
@@ -13,6 +9,15 @@ import {buttonUnstyledClasses} from "@mui/base/ButtonUnstyled";
 import TabPanelUnstyled from "@mui/base/TabPanelUnstyled";
 import TabsListUnstyled from "@mui/base/TabsListUnstyled";
 import {Stack} from "@mui/material";
+
+import {Context} from '..';
+
+import {getProxyWithDefault} from '../http/proxyApi';
+
+import Residential from '../services/Residential';
+import WithoutAuth from '../services/WithoutAuth';
+import InfoBox from '../services/InfoBox';
+
 import Loader from "../components/Loader";
 
 
@@ -126,7 +131,7 @@ const Shop = () => {
                         <Tab label="Proxy on real device" value="3"/>
                     </TabList>
                 </Box>
-                <TabPanel style={{display: "flex", flexDirection: "row"}} value="1">
+                <TabPanel style={{display: "flex", flexDirection: "row", padding: 0}} value="1">
                     <Stack sx={{width: '100%'}}>
                         <TabsUnstyled defaultValue={country} onChange={handleCountryChange}>
                             <CustomTabsList>
@@ -156,7 +161,9 @@ const Shop = () => {
                     </Stack>
                     <InfoBox/>
                 </TabPanel>
-                <TabPanel value="2">Item Two</TabPanel>
+                <TabPanel value="2">
+                    <WithoutAuth/>
+                </TabPanel>
                 <TabPanel value="3">Item Three</TabPanel>
             </TabContext>
         </Box>
