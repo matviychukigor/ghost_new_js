@@ -2,7 +2,9 @@ import React, {useContext, useEffect, useState} from "react";
 import { Card, Typography, CircularProgress, Box, Tab, } from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton';
 import {TabContext, TabList, TabPanel } from '@mui/lab/';
+
 import RouterIcon from '@mui/icons-material/Router';
+import ErrorOutline from '@mui/icons-material/ErrorOutline';
 
 import { getProxyInfo, buyProxy } from '../http/proxyApi';
 import { getMe } from '../http/userApi';
@@ -14,6 +16,7 @@ import CheckDns from "./CheckDns";
 import SellModal from "../components/SellModal"
 
 import {Context} from "..";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 const InfoBox = observer (() => {
     const {proxy, user} = useContext(Context)
@@ -21,13 +24,19 @@ const InfoBox = observer (() => {
     const [loadingPrice, setLoadingPrice] = useState(false)
 
     useEffect(() => {
-        if(proxy.selectProxy !== null){
+        if(proxy.proxyInfo[0] !== "In this country proxy not found") {
+            proxy.setInfoLoading(false)
+        }
+        console.log(proxy.proxyInfo[0])
+        if(proxy.selectProxy !== null && proxy.selectProxy !== undefined && proxy.proxyInfo[0] !== "In this country proxy not found"){
+            console.log(proxy.selectProxy)
+            console.log(proxy.proxyInfo[0])
             getProxyInfo(proxy.selectProxy.id_proxy).then(data => {
                 proxy.setSelecteProxyInfo(data.data)
                 console.log(data.data)
             }).finally(() => proxy.setInfoLoading(false))
         }
-    }, [proxy.selectProxy])
+    }, [proxy.selectProxy, proxy.proxyInfo])
 
     const handlerChange = (event, newValue) => {
         setValue(newValue);
@@ -48,14 +57,13 @@ const InfoBox = observer (() => {
 
     return (
         <Card sx={{ minWidth: 400, height: 520, ml: 2, p: 3 }}>
-            {proxy.infoLoading ? 
+            {proxy.infoLoading && proxy.proxyInfo[0] !== "In this country proxy not found" ? 
             (<Box sx={{ display: 'flex', justifyContent: "center", height: "100%", alignItems: "center", top: 0, left: 0, right: 0, bottom: 0 }}>
                 <CircularProgress />
-            </Box> ): 
-            (
+            </Box> ): (
             <>
                 <div style={{display: "flex"}}>
-                
+            
                     <div style={{display: "flex", marginRight: 10}}>
                         <div style={{display: "flex", flexDirection: "column", marginRight: 20}}>
                             <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>

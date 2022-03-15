@@ -10,8 +10,19 @@ import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 
 import FilterListIcon from '@mui/icons-material/FilterList';
+import {Context} from "..";
+
 
 const WithoutAuth = () => {
+    const {withoutProxy} = useContext(Context)
+    const [selectedId, setSelectedID] = useState(null);
+
+    const onClickProxyHandler = (id, rowProxy) => {
+        withoutProxy.setSelecteProxyWithout(rowProxy)
+        setSelectedID(id)
+    }
+
+    
     return (
         <Paper sx={{overflow: 'hidden'}}>
             <TableContainer sx={{maxHeight:'72vh'}}>
@@ -69,7 +80,7 @@ const WithoutAuth = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </Paper>
+        </Paper> 
     )
 }
 

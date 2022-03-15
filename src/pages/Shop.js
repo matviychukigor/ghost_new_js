@@ -1,22 +1,23 @@
 import React, {useEffect, useState, useContext} from 'react';
 import { Box, Tab} from '@mui/material/';
 import {TabContext, TabList, TabPanel} from '@mui/lab/';
-import Flags from "country-flag-icons/react/3x2";
 import TabsUnstyled from "@mui/base/TabsUnstyled";
 import {styled} from "@mui/system";
 import TabUnstyled, {tabUnstyledClasses} from "@mui/base/TabUnstyled";
 import {buttonUnstyledClasses} from "@mui/base/ButtonUnstyled";
-import TabPanelUnstyled from "@mui/base/TabPanelUnstyled";
+/* import TabPanelUnstyled from "@mui/base/TabPanelUnstyled"; */
 import TabsListUnstyled from "@mui/base/TabsListUnstyled";
 import {Stack} from "@mui/material";
 
 import {Context} from '..';
+import { observer } from 'mobx-react-lite';
 
 import {getProxyWithDefault} from '../http/proxyApi';
 
 import Residential from '../services/Residential';
-import WithoutAuth from '../services/WithoutAuth';
+
 import InfoBox from '../services/InfoBox';
+import CountryComboBox from '../components/CountryComboBox';
 
 import Loader from "../components/Loader";
 
@@ -71,11 +72,7 @@ const CustomTab = styled(TabUnstyled)`
   }
 `;
 
-const CustomTabPanel = styled(TabPanelUnstyled)`
-  width: 100%;
-  font-family: IBM Plex Sans, sans-serif;
-  font-size: 0.875rem;
-`;
+
 
 const CustomTabsList = styled(TabsListUnstyled)`
   min-width: 320px;
@@ -88,7 +85,7 @@ const CustomTabsList = styled(TabsListUnstyled)`
   align-content: space-between;
 `;
 
-const Shop = () => {
+const Shop = observer( () => {
     const {proxy} = useContext(Context);
 
     const [loading, setLoading] = useState(true)
@@ -99,26 +96,32 @@ const Shop = () => {
         setLoading(true)
         proxy.setInfoLoading(true)
 
-        getProxyWithDefault(country).then(data => {
-            proxy.setSelecteProxy(data.data[0].proxy_id)
-            proxy.clearProxyInfo()
-
-            proxy.setSelecteProxy(data.data[0])
-            proxy.setSpeedProxy(data.data[0].speed)
-            console.log(data.data)
-            data.data.map(elem => {
-                proxy.setProxyInfo(elem)
-                return elem
-            })
+        getProxyWithDefault(proxy.selectTabsCountry).then(data => {
+            console.log(data)
+            console.log(data.status)
+            if(data.status === 0){
+                proxy.setSelecteProxy(data.data[0].proxy_id)
+                proxy.clearProxyInfo()
+                proxy.setSelecteProxy(data.data[0])
+                proxy.setSpeedProxy(data.data[0].speed)
+                data.data.map(elem => {
+                    proxy.setProxyInfo(elem)
+                    return elem
+                })
+            } else {
+                proxy.clearProxyInfo()
+                proxy.setProxyInfo("In this country proxy not found")
+                console.log(proxy.proxyInfo)
+            }
         }).finally(() => setLoading(false))
-    }, [country])
+    }, [proxy.selectTabsCountry])
 
     const handlerChange = (event, newValue) => {
         setValue(newValue);
     }
 
     const handleCountryChange = (e, country) => {
-        setCountry(country)
+        proxy.setSelectTabsCountry(country)
     }
 
     return (
@@ -131,43 +134,41 @@ const Shop = () => {
                         <Tab label="Proxy on real device" value="3"/>
                     </TabList>
                 </Box>
-                <TabPanel style={{display: "flex", flexDirection: "row", padding: 0}} value="1">
-                    <Stack sx={{width: '100%'}}>
-                        <TabsUnstyled defaultValue={country} onChange={handleCountryChange}>
-                            <CustomTabsList>
-                                <CustomTab value='United States'>
-                                    <Flags.US title="United States" style={{height: 24, width: 24}}/>
-                                    <span style={{marginLeft: 10}}>United States</span>
-                                </CustomTab>
-                                <CustomTab value='United Kingdom'>
-                                    <Flags.GB title="United Kingdom" style={{height: 24, width: 24}}/>
-                                    <span style={{marginLeft: 10}}>United Kingdom</span>
-                                </CustomTab>
-                                <CustomTab value='Canada'>
-                                    <Flags.CA title="Canada" style={{height: 24, width: 24}}/>
-                                    <span style={{marginLeft: 10}}>Canada</span>
-                                </CustomTab>
-                                <CustomTab value='Italy'>
-                                    <Flags.IT title="Italy" style={{height: 24, width: 24}}/>
-                                    <span style={{marginLeft: 10}}>Italy</span>
-                                </CustomTab>
-                                <CustomTab value='China'>
-                                    <Flags.CN title="China" style={{height: 24, width: 24}}/>
-                                    <span style={{marginLeft: 10}}>China</span>
-                                </CustomTab>
-                            </CustomTabsList>
-                        </TabsUnstyled>
-                        {loading === true ? <Loader/> : <Residential/>}
+                <TabPanel style={{display: "flex", flexDirection: "row", justifyContent: "space-around",  padding: 0}} value="1">
+                    <Stack sx={{width: '100%', marginLeft: 2, marginTop: 1}}>
+                        <Box sx={{display: "flex", flexDirection: "row", justifyContent: "space-evenly"}}>
+                            <TabsUnstyled  value={proxy.selectTabsCountry} onChange={handleCountryChange}>
+                                <CustomTabsList>
+                                    {proxy.tabsCountry.map((elem) => {
+                                        return(
+                                            <CustomTab value={elem.label} key={elem.code} sx={{width: 140}}>
+                                                <img
+                                                    alt={elem.label}
+                                                    src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${elem.code}.svg`}
+                                                    style={{height: 24, width: 20}}
+                                                />    
+                                                <span style={{marginLeft: 5}}>{elem.label}</span>
+                                            </CustomTab>    
+                                        )
+                                    })}
+                                    
+                                </CustomTabsList>
+                                
+                            </TabsUnstyled>
+                            <CountryComboBox/>
+                        </Box>
+                        {loading ? <Loader/> : <Residential/>}
                     </Stack>
                     <InfoBox/>
                 </TabPanel>
                 <TabPanel value="2">
-                    <WithoutAuth/>
+                    weqwerw
+                    {/* <WithoutAuth/> */}
                 </TabPanel>
                 <TabPanel value="3">Item Three</TabPanel>
             </TabContext>
         </Box>
     )
-}
+})
 
 export default Shop;

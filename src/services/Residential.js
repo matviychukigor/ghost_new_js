@@ -1,4 +1,5 @@
 import React, {useState, useContext} from 'react';
+import { Typography } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
@@ -8,7 +9,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 
+import ErrorOutline from '@mui/icons-material/ErrorOutline';
 import FilterListIcon from '@mui/icons-material/FilterList';
+
 import {Context} from "..";
 
 
@@ -22,6 +25,21 @@ const Residential = () => {
         proxy.setSpeedProxy(rowProxy.speed)
         setSelectedID(id)
         console.log(id)
+    }
+
+    if(proxy.proxyInfo[0] === "In this country proxy not found"){
+        return(
+            <div>
+                <div style={{display: "flex", justifyContent: "center", marginTop: "15px"}}>
+                    <ErrorOutline sx={{mr: 1, color: "red", fontSize: 70}}/>
+                </div>
+                <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
+                    <Typography sx={{ fontSize: 18, textAlign: "center", color: "red" }} color="text.secondary" gutterBottom>
+                        {proxy.proxyInfo[0]}
+                    </Typography>
+                </div>
+            </div>
+        )
     }
 
     return (

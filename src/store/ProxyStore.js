@@ -2,6 +2,13 @@ import {makeAutoObservable} from "mobx"
 
 export default class ProxyStore {
     constructor(){
+        this._tabsCountry = [
+            {code: "US", label: "United States"},
+            {code: "GB", label: "United Kingdom"},
+            {code: "CA", label: "Canada"},
+            {code: 'CN', label: 'China'},
+        ];
+        this._selectTabsCountry = "United States"
         this._proxyInfo = [];
         this._selectProxy = null;
         this._selectProxyInfo = null;
@@ -10,6 +17,14 @@ export default class ProxyStore {
         this._sellProxy = null;
         this._modalOn = false;
         makeAutoObservable(this)
+    }
+
+    resetTabsCountry(newCountry) {
+        this._tabsCountry.splice(4, 1, newCountry)
+    }
+
+    setSelectTabsCountry(country) {
+        this._selectTabsCountry = country
     }
 
     setInfoLoading(load) {
@@ -42,6 +57,14 @@ export default class ProxyStore {
 
     setModalOn(bool) {
         this._modalOn = bool
+    }
+
+    get tabsCountry () {
+        return this._tabsCountry
+    }
+
+    get selectTabsCountry () {
+        return this._selectTabsCountry
     }
 
     get proxyInfo () {
