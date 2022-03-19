@@ -13,13 +13,17 @@ import {Context} from '..';
 import { observer } from 'mobx-react-lite';
 
 import {getProxyWithDefault} from '../http/proxyApi';
+import {getProxyPrem} from "../http/proxyWithout";
 
 import Residential from '../services/Residential';
 
 import InfoBox from '../services/InfoBox';
 import CountryComboBox from '../components/CountryComboBox';
+import PremTabs from '../components/PremTabs';
+import WithoutAuth from '../services/WithoutAuth';
 
 import Loader from "../components/Loader";
+import { CommentsDisabledOutlined } from '@mui/icons-material';
 
 
 const blue = {
@@ -86,7 +90,8 @@ const CustomTabsList = styled(TabsListUnstyled)`
 `;
 
 const Shop = observer( () => {
-    const {proxy} = useContext(Context);
+    const {proxy, withoutProxy} = useContext(Context);
+    
 
     const [loading, setLoading] = useState(true)
     const [value, setValue] = useState("1")
@@ -97,8 +102,6 @@ const Shop = observer( () => {
         proxy.setInfoLoading(true)
 
         getProxyWithDefault(proxy.selectTabsCountry).then(data => {
-            console.log(data)
-            console.log(data.status)
             if(data.status === 0){
                 proxy.setSelecteProxy(data.data[0].proxy_id)
                 proxy.clearProxyInfo()
@@ -111,13 +114,20 @@ const Shop = observer( () => {
             } else {
                 proxy.clearProxyInfo()
                 proxy.setProxyInfo("In this country proxy not found")
-                console.log(proxy.proxyInfo)
             }
         }).finally(() => setLoading(false))
     }, [proxy.selectTabsCountry])
 
     const handlerChange = (event, newValue) => {
         setValue(newValue);
+        if(newValue == 2) {
+            getProxyPrem(withoutProxy.selectTabsCountry).then(data => {
+                data.data.map(elem => {
+                    withoutProxy.setProxyWithoutInfo(elem)
+                    return elem
+                })
+            }).finally(() => withoutProxy.setPremLoading(false))
+        }
     }
 
     const handleCountryChange = (e, country) => {
@@ -151,9 +161,7 @@ const Shop = observer( () => {
                                             </CustomTab>    
                                         )
                                     })}
-                                    
                                 </CustomTabsList>
-                                
                             </TabsUnstyled>
                             <CountryComboBox/>
                         </Box>
@@ -161,9 +169,9 @@ const Shop = observer( () => {
                     </Stack>
                     <InfoBox/>
                 </TabPanel>
-                <TabPanel value="2">
-                    weqwerw
-                    {/* <WithoutAuth/> */}
+                <TabPanel value="2" sx={{padding: 1}}>
+                    <PremTabs/>
+                    {withoutProxy.premLoading ? <Loader/> : <WithoutAuth/>}
                 </TabPanel>
                 <TabPanel value="3">Item Three</TabPanel>
             </TabContext>

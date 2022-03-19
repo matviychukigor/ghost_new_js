@@ -7,21 +7,21 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 
-import FilterListIcon from '@mui/icons-material/FilterList';
+import LtePlusMobiledataIcon from '@mui/icons-material/LtePlusMobiledata';
+import Looks5Icon from '@mui/icons-material/Looks5';
+
 import {Context} from "..";
-
 
 const WithoutAuth = () => {
     const {withoutProxy} = useContext(Context)
-    const [selectedId, setSelectedID] = useState(null);
+    const [selectedId, setSelectedID] = useState(null)
 
     const onClickProxyHandler = (id, rowProxy) => {
         withoutProxy.setSelecteProxyWithout(rowProxy)
         setSelectedID(id)
     }
-
     
     return (
         <Paper sx={{overflow: 'hidden'}}>
@@ -32,48 +32,45 @@ const WithoutAuth = () => {
                             <TableCell>IP</TableCell>
                             <TableCell align="left">HostName</TableCell>
                             <TableCell align="left">Country</TableCell>
+                            <TableCell align="center">ISP</TableCell>
                             <TableCell align="left">State</TableCell>
                             <TableCell align="left">City</TableCell>
-                            <TableCell align="left">ZIP</TableCell>
                             <TableCell align="left">Speed</TableCell>
-                            <TableCell align="left">Type</TableCell>
-                            <TableCell align="left">
-                                <IconButton>
-                                    <FilterListIcon/>
-                                </IconButton>
-                            </TableCell>
+                            <TableCell align="left">Version</TableCell>
+                            <TableCell align="center">Price</TableCell>
                         </TableRow>
                     </TableHead>
 
                     <TableBody>
-                        {proxy.proxyInfo.map((row) => (
-                            <TableRow hover selected={selectedId === row.id_proxy}
-                                      onClick={() => onClickProxyHandler(row.id_proxy, row)} key={row.id_proxy}>
-                                <TableCell style={{width: "15%"}} component="th" scope="row">
+                        {withoutProxy.proxyWithoutInfo.map((row) => (
+                            <TableRow hover selected={selectedId === row.id}
+                                      onClick={() => onClickProxyHandler(row.id, row)} key={row.id}>
+                                <TableCell component="th" scope="row">
                                     {row.ip}
                                 </TableCell>
-                                <TableCell style={{width: "15%"}} align="left">
-                                    {row.domain}
+                                <TableCell align="left">
+                                    {row.hostname}
                                 </TableCell>
-                                <TableCell style={{width: "17%"}} align="left">
+                                <TableCell sx={{minWidth: 100}} align="left">
                                     {row.country}
                                 </TableCell>
-                                <TableCell style={{width: "15%"}} align="left">
-                                    {row.state === "" ? "---" : row.state}
+                                <TableCell align="center">
+                                    {row.isp}
                                 </TableCell>
-                                <TableCell style={{width: "15%"}} align="left">
+                                <TableCell align="left">
+                                    {row.state === "-" ? "---" : row.state}
+                                </TableCell>
+                                <TableCell align="left">
                                     {row.city === "-" || row.city === "" ? "---" : row.city}
                                 </TableCell>
-                                <TableCell style={{width: "10%"}} align="left">
-                                    {row.zip === "" ? "---" : row.zip}
+                                <TableCell align="center">
+                                    {row.speed === "Fast" ? <LtePlusMobiledataIcon sx={{color: "green", fontSize: 30}}/> : row.speed}
                                 </TableCell>
-                                <TableCell style={{width: "10%"}} align="left">
-                                    {row.speed}
+                                <TableCell align="center">
+                                    {row.version == "5" ? <Looks5Icon sx={{color: "#1776d2", fontSize: 30}}/> : row.version}
                                 </TableCell>
-                                <TableCell style={{width: "10%"}} align="left">
-                                    {row.type}
-                                </TableCell>
-                                <TableCell style={{width: "3%"}} align="left">
+                                <TableCell sx={{minWidth: 100}} align="center">
+                                    <Button variant="outlined">{row.price} $</Button>
                                 </TableCell>
                             </TableRow>
                         ))}

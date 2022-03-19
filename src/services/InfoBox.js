@@ -24,10 +24,6 @@ const InfoBox = observer (() => {
     const [loadingPrice, setLoadingPrice] = useState(false)
 
     useEffect(() => {
-        if(proxy.proxyInfo[0] !== "In this country proxy not found") {
-            proxy.setInfoLoading(false)
-        }
-        console.log(proxy.proxyInfo[0])
         if(proxy.selectProxy !== null && proxy.selectProxy !== undefined && proxy.proxyInfo[0] !== "In this country proxy not found"){
             console.log(proxy.selectProxy)
             console.log(proxy.proxyInfo[0])
@@ -57,7 +53,7 @@ const InfoBox = observer (() => {
 
     return (
         <Card sx={{ minWidth: 400, height: 520, ml: 2, p: 3 }}>
-            {proxy.infoLoading && proxy.proxyInfo[0] !== "In this country proxy not found" ? 
+            {proxy.infoLoading ? 
             (<Box sx={{ display: 'flex', justifyContent: "center", height: "100%", alignItems: "center", top: 0, left: 0, right: 0, bottom: 0 }}>
                 <CircularProgress />
             </Box> ): (
