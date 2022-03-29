@@ -1,8 +1,13 @@
 import {$proxy_host, $authHostProxy} from "./index";
 
-export const getProxyWithDefault = async (country, type_proxy = 0, same_dns = 0, no_bl = 0, zip_range = 50) => {
-    const {data} = await $proxy_host.get(`/face/search?c=${localStorage.getItem("token")}&country=${country}&type_proxy=${type_proxy}&same_dns=${same_dns}&no_bl=${no_bl}`)
-    return data
+export const getProxyWithDefault = async (country, state = "Alabama", type_proxy = 0, same_dns = 0, no_bl = 0, zip_range = 50) => {
+    if(country === "United States") {
+        const {data} = await $proxy_host.get(`/face/search?c=${localStorage.getItem("token")}&country=${country}&state=${state}&type_proxy=${type_proxy}&same_dns=${same_dns}&no_bl=${no_bl}`)
+        return data
+    } else {
+        const {data} = await $proxy_host.get(`/face/search?c=${localStorage.getItem("token")}&country=${country}&type_proxy=${type_proxy}&same_dns=${same_dns}&no_bl=${no_bl}`)
+        return data
+    }   
 }
 
 export const getProxyInfo = async (id) => {

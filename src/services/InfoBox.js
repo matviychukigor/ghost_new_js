@@ -52,7 +52,7 @@ const InfoBox = observer (() => {
     }
 
     return (
-        <Card sx={{ minWidth: 400, height: 520, ml: 2, p: 3 }}>
+        <Card sx={{ minWidth: 450, height: 520, mr: 3, ml: 2, p: 3 }}>
             {proxy.infoLoading ? 
             (<Box sx={{ display: 'flex', justifyContent: "center", height: "100%", alignItems: "center", top: 0, left: 0, right: 0, bottom: 0 }}>
                 <CircularProgress />

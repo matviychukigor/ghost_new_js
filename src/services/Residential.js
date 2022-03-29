@@ -54,13 +54,8 @@ const Residential = () => {
                             <TableCell align="left">State</TableCell>
                             <TableCell align="left">City</TableCell>
                             <TableCell align="left">ZIP</TableCell>
-                            <TableCell align="left">Speed</TableCell>
-                            <TableCell align="left">Type</TableCell>
-                            <TableCell align="left">
-                                <IconButton>
-                                    <FilterListIcon/>
-                                </IconButton>
-                            </TableCell>
+                            <TableCell align="center">Speed</TableCell>
+                            <TableCell align="center">Type</TableCell>
                         </TableRow>
                     </TableHead>
 
@@ -91,8 +86,6 @@ const Residential = () => {
                                 </TableCell>
                                 <TableCell style={{width: "10%"}} align="left">
                                     {row.type}
-                                </TableCell>
-                                <TableCell style={{width: "3%"}} align="left">
                                 </TableCell>
                             </TableRow>
                         ))}

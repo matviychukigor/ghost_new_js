@@ -101,7 +101,7 @@ const Shop = observer( () => {
         setLoading(true)
         proxy.setInfoLoading(true)
 
-        getProxyWithDefault(proxy.selectTabsCountry).then(data => {
+        getProxyWithDefault(proxy.selectTabsCountry, proxy.getState).then(data => {
             if(data.status === 0){
                 proxy.setSelecteProxy(data.data[0].proxy_id)
                 proxy.clearProxyInfo()
@@ -116,7 +116,7 @@ const Shop = observer( () => {
                 proxy.setProxyInfo("In this country proxy not found")
             }
         }).finally(() => setLoading(false))
-    }, [proxy.selectTabsCountry])
+    }, [proxy.selectTabsCountry, proxy.getState])
 
     const handlerChange = (event, newValue) => {
         setValue(newValue);
@@ -144,7 +144,7 @@ const Shop = observer( () => {
                         <Tab label="Proxy on real device" value="3"/>
                     </TabList>
                 </Box>
-                <TabPanel style={{display: "flex", flexDirection: "row", justifyContent: "space-around",  padding: 0}} value="1">
+                <TabPanel style={{display: "flex", flexDirection: "column", justifyContent: "space-around",  padding: 0}} value="1">
                     <Stack sx={{width: '100%', marginLeft: 2, marginTop: 1}}>
                         <Box sx={{display: "flex", flexDirection: "row", justifyContent: "space-evenly"}}>
                             <TabsUnstyled  value={proxy.selectTabsCountry} onChange={handleCountryChange}>
@@ -165,11 +165,15 @@ const Shop = observer( () => {
                             </TabsUnstyled>
                             <CountryComboBox/>
                         </Box>
-                        {loading ? <Loader/> : <Residential/>}
+                        
                     </Stack>
-                    <InfoBox/>
+                    <Box sx={{display: "flex"}}>
+                        <InfoBox/>
+                        {loading ? <Loader/> : <Residential/>}
+                    </Box>
+                    
                 </TabPanel>
-                <TabPanel value="2" sx={{padding: 1}}>
+                <TabPanel value="2" sx={{padding: 2}}>
                     <PremTabs/>
                     {withoutProxy.premLoading ? <Loader/> : <WithoutAuth/>}
                 </TabPanel>

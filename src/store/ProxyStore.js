@@ -4,12 +4,12 @@ export default class ProxyStore {
     constructor(){
         this._tabsCountry = [
             {code: "US", label: "United States"},
-            {code: "GB", label: "United Kingdom"},
             {code: "CA", label: "Canada"},
             {code: 'CN', label: 'China'},
         ];
         this._selectTabsCountry = "United States"
         this._proxyInfo = [];
+        this._state = "Alabama";
         this._selectProxy = null;
         this._selectProxyInfo = null;
         this._infoLoading = true;
@@ -20,7 +20,7 @@ export default class ProxyStore {
     }
 
     resetTabsCountry(newCountry) {
-        this._tabsCountry.splice(4, 1, newCountry)
+        this._tabsCountry.splice(3, 1, newCountry)
     }
 
     setSelectTabsCountry(country) {
@@ -41,6 +41,10 @@ export default class ProxyStore {
 
     setSelecteProxy(select) {
         this._selectProxy = select
+    }
+
+    setState(state) {
+        this._state = state
     }
 
     setSelecteProxyInfo(info){
@@ -77,6 +81,10 @@ export default class ProxyStore {
 
     get selecteProxyInfo() {
         return this._selectProxyInfo
+    }
+
+    get getState() {
+        return this._state
     }
 
     get infoLoading(){
