@@ -44,6 +44,7 @@ const InfoBox = observer (() => {
         getMe().then(data => {
             user.setBalance(data.balance)
         })
+        console.log(period + " " + id)
         buyProxy(id, period).then(data => {
             setLoadingPrice(false)
             console.log(data)
